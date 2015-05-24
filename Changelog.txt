@@ -32,7 +32,7 @@ LP:1117840 Initial startup can take a long time (+20s) due to the "Downloads" fi
 LP:1118349 Application does not start.
 LP:1157849 Partial sectors not written.
 SF:1 Application doesn't start. No window appears.
-SF:3 No support of russian characters in image file path
+SF:3 No support of Russian characters in image file path
 SF:5 Very long app opening time
 
 
@@ -52,10 +52,10 @@ Clean up mixed indentation types, some minor code cleanup.  no functional change
 Updating the 'driveLabel' stuff to use QString rather than char * on a suggestion from Roland Rudenauer
 
 Bug fixes:
-Fixed LP:1100228 "An error occured while accessing the device. Error1: Incorrect function"
+Fixed LP:1100228 "An error occurred while accessing the device. Error1: Incorrect function"
 Fixed LP:1102608 "Cannot load images from network shares"
 Fixed LP:1095038 "Error message encoding is messed up"
 Fixed LP:984510  "Cannot select Device"
-Fixed LP:923719  "An error occured while accessing the device. Error1: Incorrect function"
+Fixed LP:923719  "An error occurred while accessing the device. Error1: Incorrect function"
 Fixed LP:985080  "C: with windows 7 partition erased with all data" (NOT FULLY VERIFIED)
 fixing memory leak
