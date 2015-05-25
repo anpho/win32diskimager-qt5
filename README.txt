@@ -26,6 +26,7 @@ https://sourceforge.net/projects/win32diskimager/files/Build%20Tools/
 Short Version:
 1. Install the Qt Full SDK and use QT Creator to build.  Included batch files 
    no longer updated and may be deleted in the future.
+   See DEVEL.txt for details
 
 =============
 New Features:
