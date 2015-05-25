@@ -55,4 +55,5 @@ RC_FILE = DiskImager.rc
 TRANSLATIONS  = diskimager_en.ts\
                 diskimager_cn.ts\
                 diskimager_it.ts\
-                diskimager_pl.ts
+                diskimager_pl.ts\
+                diskimager_nl.ts
