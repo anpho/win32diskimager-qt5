@@ -1,0 +1,62 @@
+==========================================
+Getting the source and contribute changes:
+==========================================
+Download and install tortoisegit from here:
+https://code.google.com/p/tortoisegit/wiki/Download
+
+Go to the git repository of win32diskimager, create an account, and login. Next click "fork" at the top-left, then click fork to accept the defaults.
+https://sourceforge.net/p/win32diskimager/code/ci/master/tree/
+Copy the "git clone" line at the top into notepad, should be something like this:
+git clone ssh://username@git.code.sf.net/u/username/win32diskimager u-username-win32diskimager
+edit the line, so only the following remains:
+ssh://username@git.code.sf.net/u/username/win32diskimager
+
+create a new folder somewhere on your hard disk.
+right click the folder, choose "Git Clone..."
+enter this into the line "URL:"
+ssh://username@git.code.sf.net/u/username/win32diskimager
+you will be asked for your sourceforge password.
+
+When you have edited files, right click on the folder, choose commit -> master.
+You will be asked to enter information why you made the changes. This information is then stored locally on your computer.
+Next, publish the changes you have made to sourceforge by rightclick, and push. You will be asked for your sourceforge password. Now the changes are transferred to your version on sourcefore.
+
+Finally, login to sourcefore, navigate to your fork of win32diskimager, and click "Request Merge"
+Provide a meaningful summary and description, then click "Save". Now the developers are notified of your changes.
+
+===========
+Getting Qt:
+===========
+http://www.qt.io/download-open-source/
+http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe
+welcome-> next
+qt account -> leave all empty, next
+setup -> next
+installation folder: c:\qt -> next
+select components: qt 5.4, deselect all, select minGW 4.9.1 -> next
+***and tools-mingw4.9.1
+license Agreement: agree -> next
+start menu shortcuts -> next
+install
+installation finished -> next -> launch
+
+=================
+Debug Win32imager
+=================
+win32diskimager requires administrator rights to run, so run qtcreator as administrator.
+open project,  browse to win32diskimager\src\DiskImager.pro and then choose open
+configure project
+debug->start debugging->start debugging (F5)
+
+======================
+Add a new translation:
+======================
+Adding a new translation:
+Install Qt Linguist from here:
+http://qt-apps.org/content/show.php/Qt+Linguist+Download?content=89360
+File -> Open diskimager_en.ts
+edit-> translation file settings, set target language and country/region.
+file-> save as Open diskimager_??.ts
+translate all the strings into the new language, save the file
+edit DiskImager.pro to include the new language: 
+TRANSLATIONS  = 
