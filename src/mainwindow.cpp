@@ -40,8 +40,6 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    QStringList dirStack;
-    QString downloadPath = "";
     setupUi(this);
     elapsed_timer = new ElapsedTimer();
     statusbar->addPermanentWidget(elapsed_timer);   // "addpermanent" puts it on the RHS of the statusbar
@@ -66,33 +64,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     sectorData = NULL;
     sectorsize = 0ul;
 
-    myHomeDir = QDir::homePath();
-    if (myHomeDir == NULL){
-        myHomeDir = qgetenv("USERPROFILE");
+    loadSettings();
+    if (myHomeDir.isEmpty()){
+        initializeHomeDir();
     }
-    downloadPath = qgetenv("DiskImagesDir");
-    QRegExp dir(tr("Downloads$"));
-    dirStack.append(myHomeDir);
-    while (!dirStack.isEmpty() && downloadPath.isEmpty())
-    {
-        QString curPath = dirStack.takeFirst();
-        QDir curDir = QDir(curPath);
-        QStringList dirList = curDir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Time|QDir::Reversed);
-        for (int i = 0; i < dirList.size() && downloadPath.isEmpty(); ++i)
-        {
-            dirStack.append(curPath + "/" + dirList[i]);
-            if (dir.exactMatch(dirList[i]))
-                downloadPath = curPath + "/" + dirList[i];
-        }
-    }
-    dirStack.clear();
-    if (downloadPath.isEmpty())
-        downloadPath = QDir::currentPath();
-    myHomeDir = downloadPath;
 }
 
 MainWindow::~MainWindow()
 {
+    saveSettings();
     if (hRawDisk != INVALID_HANDLE_VALUE)
     {
         CloseHandle(hRawDisk);
@@ -118,6 +98,49 @@ MainWindow::~MainWindow()
         delete elapsed_timer;
         elapsed_timer = NULL;
     }
+}
+
+void MainWindow::saveSettings()
+{
+    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32ImageWriter", QSettings::NativeFormat);
+    userSettings.beginGroup("Settings");
+    userSettings.setValue("ImageDir", myHomeDir);
+    userSettings.endGroup();
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32ImageWriter", QSettings::NativeFormat);
+    userSettings.beginGroup("Settings");
+    myHomeDir = userSettings.value("ImageDir").toString();
+}
+
+void MainWindow::initializeHomeDir()
+{
+    myHomeDir = QDir::homePath();
+    if (myHomeDir == NULL){
+        myHomeDir = qgetenv("USERPROFILE");
+    }
+    QString downloadPath = qgetenv("DiskImagesDir");
+    QRegExp dir(tr("Downloads$"));
+    QStringList dirStack;
+    dirStack.append(myHomeDir);
+    while (!dirStack.isEmpty() && downloadPath.isEmpty())
+    {
+        QString curPath = dirStack.takeFirst();
+        QDir curDir = QDir(curPath);
+        QStringList dirList = curDir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Time|QDir::Reversed);
+        for (int i = 0; i < dirList.size() && downloadPath.isEmpty(); ++i)
+        {
+            dirStack.append(curPath + "/" + dirList[i]);
+            if (dir.exactMatch(dirList[i]))
+                downloadPath = curPath + "/" + dirList[i];
+        }
+    }
+    dirStack.clear();
+    if (downloadPath.isEmpty())
+        downloadPath = QDir::currentPath();
+    myHomeDir = downloadPath;
 }
 
 void MainWindow::setReadWriteButtonState()
@@ -157,6 +180,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_tbBrowse_clicked()
 {
+    // Use the location of already entered file
+    QString fileLocation = leFile->text();
+    QFileInfo fileinfo(fileLocation);
     // See if there is a user-defined file extension.
     QString fileType = qgetenv("DiskImagerFiles");
     fileType.append(tr("Disk Images (*.img *.IMG);;*.*"));
@@ -165,35 +191,39 @@ void MainWindow::on_tbBrowse_clicked()
     dialog.setNameFilter(fileType);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setDirectory(myHomeDir);
     dialog.setConfirmOverwrite(false);
-
-    QString fileLocation = NULL;
+    if (fileinfo.exists())
+    {
+        dialog.selectFile(fileLocation);
+    }
+    else
+    {
+        dialog.setDirectory(myHomeDir);
+    }
     if (dialog.exec())
     {
         // selectedFiles returns a QStringList - we just want 1 filename,
         //	so use the zero'th element from that list as the filename
         fileLocation = (dialog.selectedFiles())[0];
-    }
-
-
-    if (!fileLocation.isNull())
-    {
-        leFile->setText(fileLocation);
-        md5label->clear();
-
-        // if the md5 checkbox is checked, verify that it's a good file
-        // and then generate the md5 hash
-        if(md5CheckBox->isChecked())
+        if (!fileLocation.isNull())
         {
-            QFileInfo fileInfo(fileLocation);
-
-            if (fileInfo.exists() && fileInfo.isFile() &&
-                    fileInfo.isReadable() && (fileInfo.size() > 0) )
+            leFile->setText(fileLocation);
+            QFileInfo newFileInfo(fileLocation);
+            myHomeDir = newFileInfo.absolutePath();
+            // if the md5 checkbox is checked, verify that it's a good file
+            // and then generate the md5 hash
+            if(md5CheckBox->isChecked())
             {
-                generateMd5(fileLocation.toLatin1().data());
+                QFileInfo fileInfo(fileLocation);
+
+                if (fileInfo.exists() && fileInfo.isFile() &&
+                    fileInfo.isReadable() && (fileInfo.size() > 0) )
+                {
+                    generateMd5(fileLocation.toLatin1().data());
+                }
             }
         }
+       setReadWriteButtonState();
     }
     updateMd5CopyButton();
 }
@@ -225,23 +255,6 @@ void MainWindow::generateMd5(char *filename)
     QApplication::restoreOverrideCursor();
 }
 
-void MainWindow::on_leFile_textChanged()
-{
-    setReadWriteButtonState();
-
-    // since the filename was edited, the md5sum no longer
-    //    applies - clear it...
-    if(md5CheckBox->isChecked())
-    {
-        if( !(md5label->text().isEmpty()) )
-        {
-            md5label->clear();
-        }
-        generateMd5(leFile->text().toLatin1().data());
-    }
-    updateMd5CopyButton();
-}
-
 // on an "editingFinished" signal (IE: return press), if the lineedit
 // contains a valid file, and generate the md5
 void MainWindow::on_leFile_editingFinished()
@@ -255,6 +268,7 @@ void MainWindow::on_leFile_editingFinished()
             generateMd5(leFile->text().toLatin1().data());
         }
     }
+    setReadWriteButtonState();
     updateMd5CopyButton();
 }
 
