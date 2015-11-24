@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QFileInfo>
 #include <QDirIterator>
+#include <QClipboard>
 #include <cstdio>
 #include <cstdlib>
 #include <windows.h>
@@ -37,6 +38,7 @@
 #include "disk.h"
 #include "mainwindow.h"
 #include "md5.h"
+#include "elapsedtimer.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -59,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         leFile->setText(fileInfo.absoluteFilePath());
     }
 
-    updateMd5CopyButton();
+    updateMd5Controls();
     setReadWriteButtonState();
     sectorData = NULL;
     sectorsize = 0ul;
@@ -99,6 +101,7 @@ MainWindow::~MainWindow()
         elapsed_timer = NULL;
     }
 }
+
 
 void MainWindow::saveSettings()
 {
@@ -183,6 +186,7 @@ void MainWindow::on_tbBrowse_clicked()
     // Use the location of already entered file
     QString fileLocation = leFile->text();
     QFileInfo fileinfo(fileLocation);
+
     // See if there is a user-defined file extension.
     QString fileType = qgetenv("DiskImagerFiles");
     fileType.append(tr("Disk Images (*.img *.IMG);;*.*"));
@@ -200,32 +204,22 @@ void MainWindow::on_tbBrowse_clicked()
     {
         dialog.setDirectory(myHomeDir);
     }
+
     if (dialog.exec())
     {
         // selectedFiles returns a QStringList - we just want 1 filename,
         //	so use the zero'th element from that list as the filename
         fileLocation = (dialog.selectedFiles())[0];
+
         if (!fileLocation.isNull())
         {
             leFile->setText(fileLocation);
             QFileInfo newFileInfo(fileLocation);
             myHomeDir = newFileInfo.absolutePath();
-            // if the md5 checkbox is checked, verify that it's a good file
-            // and then generate the md5 hash
-            if(md5CheckBox->isChecked())
-            {
-                QFileInfo fileInfo(fileLocation);
-
-                if (fileInfo.exists() && fileInfo.isFile() &&
-                    fileInfo.isReadable() && (fileInfo.size() > 0) )
-                {
-                    generateMd5(fileLocation.toLatin1().data());
-                }
-            }
         }
-       setReadWriteButtonState();
+        setReadWriteButtonState();
+        updateMd5Controls();
     }
-    updateMd5CopyButton();
 }
 
 void MainWindow::on_bMd5Copy_clicked()
@@ -255,27 +249,18 @@ void MainWindow::generateMd5(char *filename)
     QApplication::restoreOverrideCursor();
 }
 
+
 // on an "editingFinished" signal (IE: return press), if the lineedit
 // contains a valid file, and generate the md5
 void MainWindow::on_leFile_editingFinished()
 {
-    if(md5CheckBox->isChecked())
-    {
-        QFileInfo fileinfo(leFile->text());
-        if (fileinfo.exists() && fileinfo.isFile() &&
-                fileinfo.isReadable() && (fileinfo.size() > 0) )
-        {
-            generateMd5(leFile->text().toLatin1().data());
-        }
-    }
     setReadWriteButtonState();
-    updateMd5CopyButton();
+    updateMd5Controls();
 }
 
 void MainWindow::on_bCancel_clicked()
 {
     if ( (status == STATUS_READING) || (status == STATUS_WRITING) )
-
     {
         if (QMessageBox::warning(this, tr("Cancel?"), tr("Canceling now will result in a corrupt destination.\n"
                                                          "Are you sure you want to cancel?"),
@@ -290,32 +275,7 @@ void MainWindow::on_bCancel_clicked()
 // when it's "unchecked", clear the md5 label
 void MainWindow::on_md5CheckBox_stateChanged()
 {
-    bool state = md5CheckBox->isChecked();
-
-    md5header->setEnabled(state);
-    md5label->setEnabled(state);
-
-    if(state)
-    {
-        // changed from unchecked to checked
-        if( !(leFile->text().isEmpty()) )
-        {
-            QFileInfo fileinfo(leFile->text());
-            if (fileinfo.exists() && fileinfo.isFile() &&
-                    fileinfo.isReadable() && (fileinfo.size() > 0) )
-            {
-                generateMd5(leFile->text().toLatin1().data());
-            }
-        }
-
-    }
-    else
-    {
-        // changed from checked to unchecked
-        md5label->clear();
-    }
-
-    updateMd5CopyButton();
+    updateMd5Controls();
 }
 
 void MainWindow::on_bWrite_clicked()
@@ -574,15 +534,14 @@ void MainWindow::on_bRead_clicked()
         QFileInfo fileinfo(myFile);
         if (fileinfo.path()=="."){
             myFile=(myHomeDir + "/" + leFile->text());
-            QFileInfo fileinfo(myFile);
         }
-    // check whether source and target device is the same...
+        // check whether source and target device is the same...
         if (myFile.at(0) == cboxDevice->currentText().at(1))
         {
             QMessageBox::critical(this, tr("Write Error"), tr("Image file cannot be located on the target device."));
             return;
         }
-    // confirm overwrite if the dest. file already exists
+        // confirm overwrite if the dest. file already exists
         if (fileinfo.exists())
         {
             if (QMessageBox::warning(this, tr("Confirm Overwrite"), tr("Are you sure you want to overwrite the specified file?"),
@@ -767,16 +726,7 @@ void MainWindow::on_bRead_clicked()
             QMessageBox::information(this, tr("Complete"), tr("Read Successful."));
 
         }
-        if(md5CheckBox->isChecked())
-        {
-            QFileInfo fileinfo(myFile);
-            if (fileinfo.exists() && fileinfo.isFile() &&
-                    fileinfo.isReadable() && (fileinfo.size() > 0) )
-            {
-                generateMd5(myFile.toLatin1().data());
-            }
-        }
-    updateMd5CopyButton();
+        updateMd5Controls();
     }
     else
     {
@@ -897,11 +847,29 @@ bool MainWindow::nativeEvent(const QByteArray &type, void *vMsg, long *result)
     return false; // let qt handle the rest
 }
 
-void MainWindow::updateMd5CopyButton()
+void MainWindow::updateMd5Controls()
 {
+    bool md5Checked = md5CheckBox->isChecked();
+
+    md5header->setEnabled(md5Checked);
+    md5label->setEnabled(md5Checked);
+
+    md5label->clear();
+    if(md5Checked)
+    {
+        if( !(leFile->text().isEmpty()) )
+        {
+            QFileInfo fileinfo(leFile->text());
+            if (fileinfo.exists() && fileinfo.isFile() &&
+                    fileinfo.isReadable() && (fileinfo.size() > 0) )
+            {
+                generateMd5(leFile->text().toLatin1().data());
+            }
+        }
+    }
+
     // if the md5 checkbox is checked, and there's a value is the md5 label,
     //   make the copy button visible
-    bool boxChecked = md5CheckBox->isChecked();
     bool haveMd5 = !(md5label->text().isEmpty());
-    bMd5Copy->setEnabled(boxChecked && haveMd5);
+    bMd5Copy->setEnabled(md5Checked && haveMd5);
 }

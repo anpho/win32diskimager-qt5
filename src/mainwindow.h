@@ -25,14 +25,11 @@
 #endif
 
 #include <QtWidgets>
-#include <QClipboard>
-#include <cstdio>
-#include <cstdlib>
 #include <windows.h>
-#include <winioctl.h>
 #include "ui_mainwindow.h"
-#include "disk.h"
-#include "elapsedtimer.h"
+
+class QClipboard;
+class ElapsedTimer;
 
 class MainWindow : public QMainWindow, public Ui::MainWindow
 {
@@ -58,6 +55,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
         void saveSettings();
         void loadSettings();
         void initializeHomeDir();
+        void updateMd5Controls();
 
         HANDLE hVolume;
         HANDLE hFile;
@@ -71,7 +69,6 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
         QClipboard *clipboard;
         void generateMd5(char *filename);
         QString myHomeDir;
-        void updateMd5CopyButton();
 };
 
 #endif // MAINWINDOW_H
