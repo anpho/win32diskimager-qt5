@@ -25,7 +25,7 @@ INCLUDEPATH += .
 DEFINES -= UNICODE
 QT += widgets
 #DEFINES += QT_NO_CAST_FROM_ASCII
-VERSION = 0.9.5
+VERSION = 0.9.9
 VERSTR = '\\"$${VERSION}\\"'
 DEFINES += VER=\"$${VERSTR}\"
 DEFINES += WINVER=0x0601
@@ -38,7 +38,7 @@ QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2014 Windows ImageWriter Team"
 HEADERS += disk.h\
            mainwindow.h\
            droppablelineedit.h \
-    elapsedtimer.h
+           elapsedtimer.h
 
 FORMS += mainwindow.ui
 
@@ -46,7 +46,7 @@ SOURCES += disk.cpp\
            main.cpp\
            mainwindow.cpp\
            droppablelineedit.cpp \
-    elapsedtimer.cpp
+           elapsedtimer.cpp
 
 RESOURCES += gui_icons.qrc
 
@@ -56,4 +56,6 @@ TRANSLATIONS  = diskimager_en.ts\
                 diskimager_cn.ts\
                 diskimager_it.ts\
                 diskimager_pl.ts\
-                diskimager_nl.ts
+                diskimager_nl.ts\
+                diskimager_zh_CN.ts\
+                diskimager_zh_TW.ts
