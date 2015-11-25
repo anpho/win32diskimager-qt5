@@ -37,7 +37,6 @@
 
 #include "disk.h"
 #include "mainwindow.h"
-#include "md5.h"
 #include "elapsedtimer.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -237,13 +236,22 @@ void MainWindow::generateMd5(char *filename)
     md5label->setText(tr("Generating..."));
     QApplication::processEvents();
 
-    MD5 md5;
+    QCryptographicHash filehash(QCryptographicHash::Md5);
 
     // may take a few secs - display a wait cursor
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    // "digestFile" computes the md5 - display it in the textbox
-    md5label->setText(md5.digestFile(filename));
+    QFile file(filename);
+    file.open(QFile::ReadOnly);
+    while(!file.atEnd())
+    {
+        // calculate the hash for this file
+        filehash.addData(file.read(8192));
+    }
+    QByteArray hash = filehash.result();
+
+    // display it in the textbox
+    md5label->setText(hash.toHex());
 
     // redisplay the normal cursor
     QApplication::restoreOverrideCursor();
