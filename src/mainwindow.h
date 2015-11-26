@@ -46,9 +46,13 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
         void on_bWrite_clicked();
         void on_bRead_clicked();
         void on_leFile_editingFinished();
-        void on_md5CheckBox_stateChanged();
-        void on_bMd5Copy_clicked();
-    private:
+        void on_bHashCopy_clicked();
+private slots:
+        void on_cboxHash_currentIndexChanged();
+        void on_bHashGen_clicked();
+        void on_HashType_stateChanged();
+
+private:
         // find attached devices
         void getLogicalDrives();
         void setReadWriteButtonState();
@@ -67,7 +71,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
         QTime update_timer;
         ElapsedTimer *elapsed_timer = NULL;
         QClipboard *clipboard;
-        void generateMd5(char *filename);
+        void generateMd5(char *filename, int hashish);
         QString myHomeDir;
 };
 

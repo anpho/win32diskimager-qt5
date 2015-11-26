@@ -59,6 +59,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         QFileInfo fileInfo(fileLocation);
         leFile->setText(fileInfo.absoluteFilePath());
     }
+    // Add supported hash types.
+    cboxHash->addItem("MD5",QVariant(QCryptographicHash::Md5));
+    cboxHash->addItem("SHA1",QVariant(QCryptographicHash::Sha1));
+    cboxHash->addItem("SHA256",QVariant(QCryptographicHash::Sha256));
 
     updateMd5Controls();
     setReadWriteButtonState();
@@ -221,38 +225,41 @@ void MainWindow::on_tbBrowse_clicked()
     }
 }
 
-void MainWindow::on_bMd5Copy_clicked()
+void MainWindow::on_bHashCopy_clicked()
 {
-    QString md5sum(md5label->text());
-    if ( !(md5sum.isEmpty()) )
+    QString hashSum(hashLabel->text());
+    if ( !(hashSum.isEmpty()) )
     {
-        clipboard->setText(md5sum);
+        clipboard->setText(hashSum);
     }
 }
 
-// generates the md5 hash
-void MainWindow::generateMd5(char *filename)
+// generates the hash
+void MainWindow::generateMd5(char *filename, int hashish)
 {
-    md5label->setText(tr("Generating..."));
+    hashLabel->setText(tr("Generating..."));
     QApplication::processEvents();
 
-    QCryptographicHash filehash(QCryptographicHash::Md5);
+    QCryptographicHash filehash((QCryptographicHash::Algorithm)hashish);
 
     // may take a few secs - display a wait cursor
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QFile file(filename);
     file.open(QFile::ReadOnly);
-    while(!file.atEnd())
+    filehash.addData(&file);
+
+    /*while(!file.atEnd())
     {
         // calculate the hash for this file
         filehash.addData(file.read(8192));
     }
+    */
     QByteArray hash = filehash.result();
 
     // display it in the textbox
-    md5label->setText(hash.toHex());
-
+    hashLabel->setText(hash.toHex());
+    bHashCopy->setEnabled(true);
     // redisplay the normal cursor
     QApplication::restoreOverrideCursor();
 }
@@ -281,7 +288,7 @@ void MainWindow::on_bCancel_clicked()
 
 // if the md5 checkbox becomes "checked", verify the file and generate md5
 // when it's "unchecked", clear the md5 label
-void MainWindow::on_md5CheckBox_stateChanged()
+void MainWindow::on_HashType_stateChanged()
 {
     updateMd5Controls();
 }
@@ -857,27 +864,35 @@ bool MainWindow::nativeEvent(const QByteArray &type, void *vMsg, long *result)
 
 void MainWindow::updateMd5Controls()
 {
-    bool md5Checked = md5CheckBox->isChecked();
+    QFileInfo fileinfo(leFile->text());
+    bool validFile = (fileinfo.exists() && fileinfo.isFile() &&
+                      fileinfo.isReadable() && (fileinfo.size() >0));
 
-    md5header->setEnabled(md5Checked);
-    md5label->setEnabled(md5Checked);
+    bHashCopy->setEnabled(false);
+    hashLabel->clear();
 
-    md5label->clear();
-    if(md5Checked)
+    if (cboxHash->currentIndex() != 0 && !leFile->text().isEmpty() && validFile)
     {
-        if( !(leFile->text().isEmpty()) )
-        {
-            QFileInfo fileinfo(leFile->text());
-            if (fileinfo.exists() && fileinfo.isFile() &&
-                    fileinfo.isReadable() && (fileinfo.size() > 0) )
-            {
-                generateMd5(leFile->text().toLatin1().data());
-            }
-        }
+            bHashGen->setEnabled(true);
+    }
+    else
+    {
+        bHashGen->setEnabled(false);
     }
 
     // if the md5 checkbox is checked, and there's a value is the md5 label,
     //   make the copy button visible
-    bool haveMd5 = !(md5label->text().isEmpty());
-    bMd5Copy->setEnabled(md5Checked && haveMd5);
+    bool haveMd5 = !(hashLabel->text().isEmpty());
+    bHashCopy->setEnabled(haveMd5);
+}
+
+void MainWindow::on_cboxHash_currentIndexChanged()
+{
+    updateMd5Controls();
+}
+
+void MainWindow::on_bHashGen_clicked()
+{
+    generateMd5(leFile->text().toLatin1().data(),cboxHash->currentData().toInt());
+
 }
