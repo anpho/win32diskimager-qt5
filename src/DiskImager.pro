@@ -14,7 +14,7 @@
 #
 #
 #  Copyright (C) 2009, Justin Davis <tuxdavis@gmail.com>
-#  Copyright (C) 2009-2014 ImageWriter developers
+#  Copyright (C) 2009-2015 ImageWriter developers
 #                          https://launchpad.net/~image-writer-devs
 ###################################################################
 TEMPLATE = app
@@ -32,7 +32,7 @@ DEFINES += WINVER=0x0601
 DEFINES += _WIN32_WINNT=0x0601
 QMAKE_TARGET_PRODUCT = "Win32 Image Writer"
 QMAKE_TARGET_DESCRIPTION = "Image Writer for Windows to write USB and SD images"
-QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2014 Windows ImageWriter Team"
+QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2015 Windows ImageWriter Team"
 
 # Input
 HEADERS += disk.h\
