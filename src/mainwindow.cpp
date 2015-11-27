@@ -249,12 +249,6 @@ void MainWindow::generateMd5(char *filename, int hashish)
     file.open(QFile::ReadOnly);
     filehash.addData(&file);
 
-    /*while(!file.atEnd())
-    {
-        // calculate the hash for this file
-        filehash.addData(file.read(8192));
-    }
-    */
     QByteArray hash = filehash.result();
 
     // display it in the textbox
