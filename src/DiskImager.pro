@@ -58,4 +58,5 @@ TRANSLATIONS  = diskimager_en.ts\
                 diskimager_pl.ts\
                 diskimager_nl.ts\
                 diskimager_zh_CN.ts\
-                diskimager_zh_TW.ts
+                diskimager_zh_TW.ts\
+                diskimager_ta_IN.ts
