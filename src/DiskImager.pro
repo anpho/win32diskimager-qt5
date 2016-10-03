@@ -52,11 +52,11 @@ RESOURCES += gui_icons.qrc
 
 RC_FILE = DiskImager.rc
 
-TRANSLATIONS  = diskimager_en.ts\
-                diskimager_cn.ts\
-                diskimager_it.ts\
-                diskimager_pl.ts\
-                diskimager_nl.ts\
-                diskimager_zh_CN.ts\
-                diskimager_zh_TW.ts\
-                diskimager_ta_IN.ts
+TRANSLATIONS  = lang/diskimager_en.ts\
+                lang/diskimager_cn.ts\
+                lang/diskimager_it.ts\
+                lang/diskimager_pl.ts\
+                lang/diskimager_nl.ts\
+                lang/diskimager_zh_CN.ts\
+                lang/diskimager_zh_TW.ts\
+                lang/diskimager_ta_IN.ts
