@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/lang">
+        <file>lang/diskimager_de_de.qm</file>
+        <file>lang/diskimager_en.qm</file>
+        <file>lang/diskimager_it.qm</file>
+        <file>lang/diskimager_nl.qm</file>
+        <file>lang/diskimager_pl.qm</file>
+        <file>lang/diskimager_zh_CN.qm</file>
+        <file>lang/diskimager_zh_TW.qm</file>
+    </qresource>
+</RCC>

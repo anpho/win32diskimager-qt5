@@ -48,13 +48,13 @@ SOURCES += disk.cpp\
            droppablelineedit.cpp \
            elapsedtimer.cpp
 
-RESOURCES += gui_icons.qrc
+RESOURCES += gui_icons.qrc translations.qrc
 
 RC_FILE = DiskImager.rc
 
 TRANSLATIONS  = lang/diskimager_en.ts\
-                lang/diskimager_cn.ts\
                 lang/diskimager_it.ts\
+                lang/diskimager_de_de.ts\
                 lang/diskimager_pl.ts\
                 lang/diskimager_nl.ts\
                 lang/diskimager_zh_CN.ts\

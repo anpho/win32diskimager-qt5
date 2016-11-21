@@ -34,9 +34,8 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationDisplayName(VER);
 
-    QString locale = QLocale::system().name();
     QTranslator translator;
-    translator.load(QString("diskimager_")+ locale);
+    translator.load(":lang/diskimager_" + QLocale::system().name());
     app.installTranslator(&translator);
 
     MainWindow mainwindow;
