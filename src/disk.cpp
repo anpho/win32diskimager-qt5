@@ -379,6 +379,20 @@ bool slashify(char *str, char **slash, char **noSlash)
     return(retVal);
 }
 
+bool GetMediaType(HANDLE hDevice)
+{
+    DISK_GEOMETRY diskGeo;
+    DWORD cbBytesReturned;
+    if (DeviceIoControl(hDevice, IOCTL_DISK_GET_DRIVE_GEOMETRY,NULL, 0, &diskGeo, sizeof(diskGeo), &cbBytesReturned, NULL))
+    {
+        if ((diskGeo.MediaType == FixedMedia) || (diskGeo.MediaType == RemovableMedia))
+        {
+            return true; // Not a floppy
+        }
+    }
+    return false;
+}
+
 bool checkDriveType(char *name, ULONG *pid)
 {
     HANDLE hDevice;
@@ -400,7 +414,7 @@ bool checkDriveType(char *name, ULONG *pid)
     switch( driveType )
     {
     case DRIVE_REMOVABLE: // The media can be removed from the drive.
-    case DRIVE_FIXED:     // The media cannot be removed from the drive.
+    case DRIVE_FIXED:     // The media cannot be removed from the drive. Some USB drives report as this.
         hDevice = CreateFile(nameNoSlash, FILE_READ_ATTRIBUTES, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
         if (hDevice == INVALID_HANDLE_VALUE)
         {
@@ -420,7 +434,7 @@ bool checkDriveType(char *name, ULONG *pid)
 
             // get the device number if the drive is
             // removable or (fixed AND on the usb bus, SD, or MMC (undefined in XP/mingw))
-            if(GetDisksProperty(hDevice, pDevDesc, &deviceInfo) &&
+            if(GetMediaType(hDevice) && GetDisksProperty(hDevice, pDevDesc, &deviceInfo) &&
                     ( ((driveType == DRIVE_REMOVABLE) && (pDevDesc->BusType != BusTypeSata))
                       || ( (driveType == DRIVE_FIXED) && ((pDevDesc->BusType == BusTypeUsb)
                       || (pDevDesc->BusType == BusTypeSd ) || (pDevDesc->BusType == BusTypeMmc )) ) ) )
