@@ -48,6 +48,7 @@ HANDLE getHandleOnFile(LPCWSTR filelocation, DWORD access);
 HANDLE getHandleOnDevice(int device, DWORD access);
 HANDLE getHandleOnVolume(int volume, DWORD access);
 QString getDriveLabel(const char *drv);
+DWORD getDeviceID(HANDLE handle);
 bool getLockOnVolume(HANDLE handle);
 bool removeLockOnVolume(HANDLE handle);
 bool unmountVolume(HANDLE handle);

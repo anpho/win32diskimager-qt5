@@ -45,6 +45,23 @@ HANDLE getHandleOnFile(LPCWSTR filelocation, DWORD access)
     }
     return hFile;
 }
+DWORD getDeviceID(HANDLE hVolume)
+{
+    VOLUME_DISK_EXTENTS sd;
+    DWORD bytesreturned;
+    if (!DeviceIoControl(hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &sd, sizeof(sd), &bytesreturned, NULL))
+    {
+        wchar_t *errormessage=NULL;
+        ::FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError(), 0,
+                         (LPWSTR)&errormessage, 0, NULL);
+        QString errText = QString::fromUtf16((const ushort *)errormessage);
+        QMessageBox::critical(NULL, QObject::tr("Volume Error"),
+                              QObject::tr("An error occurred when attempting to get information on volume.\n"
+                                          "Error %1: %2").arg(GetLastError()).arg(errText));
+        LocalFree(errormessage);
+    }
+    return sd.Extents[0].DiskNumber;
+}
 
 HANDLE getHandleOnDevice(int device, DWORD access)
 {

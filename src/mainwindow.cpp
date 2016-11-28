@@ -322,7 +322,7 @@ void MainWindow::on_bWrite_clicked()
             double mbpersec;
             unsigned long long i, lasti, availablesectors, numsectors;
             int volumeID = cboxDevice->currentText().at(1).toLatin1() - 'A';
-            int deviceID = cboxDevice->itemData(cboxDevice->currentIndex()).toInt();
+            // int deviceID = cboxDevice->itemData(cboxDevice->currentIndex()).toInt();
             hVolume = getHandleOnVolume(volumeID, GENERIC_WRITE);
             if (hVolume == INVALID_HANDLE_VALUE)
             {
@@ -331,6 +331,7 @@ void MainWindow::on_bWrite_clicked()
                 setReadWriteButtonState();
                 return;
             }
+            DWORD deviceID = getDeviceID(hVolume);
             if (!getLockOnVolume(hVolume))
             {
                 CloseHandle(hVolume);
@@ -566,7 +567,7 @@ void MainWindow::on_bRead_clicked()
         double mbpersec;
         unsigned long long i, lasti, numsectors, filesize, spaceneeded = 0ull;
         int volumeID = cboxDevice->currentText().at(1).toLatin1() - 'A';
-        int deviceID = cboxDevice->itemData(cboxDevice->currentIndex()).toInt();
+        //int deviceID = cboxDevice->itemData(cboxDevice->currentIndex()).toInt();
         hVolume = getHandleOnVolume(volumeID, GENERIC_READ);
         if (hVolume == INVALID_HANDLE_VALUE)
         {
@@ -575,6 +576,7 @@ void MainWindow::on_bRead_clicked()
             setReadWriteButtonState();
             return;
         }
+        DWORD deviceID = getDeviceID(hVolume);
         if (!getLockOnVolume(hVolume))
         {
             CloseHandle(hVolume);
