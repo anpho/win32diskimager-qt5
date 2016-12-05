@@ -108,7 +108,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::saveSettings()
 {
-    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32ImageWriter", QSettings::NativeFormat);
+    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32DiskImager", QSettings::NativeFormat);
     userSettings.beginGroup("Settings");
     userSettings.setValue("ImageDir", myHomeDir);
     userSettings.endGroup();
@@ -116,7 +116,7 @@ void MainWindow::saveSettings()
 
 void MainWindow::loadSettings()
 {
-    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32ImageWriter", QSettings::NativeFormat);
+    QSettings userSettings("HKEY_CURRENT_USER\\Software\\Win32DiskImager", QSettings::NativeFormat);
     userSettings.beginGroup("Settings");
     myHomeDir = userSettings.value("ImageDir").toString();
 }
@@ -127,23 +127,20 @@ void MainWindow::initializeHomeDir()
     if (myHomeDir == NULL){
         myHomeDir = qgetenv("USERPROFILE");
     }
+    /* Get Downloads the Windows way */
     QString downloadPath = qgetenv("DiskImagesDir");
-    QRegExp dir(tr("Downloads$"));
-    QStringList dirStack;
-    dirStack.append(myHomeDir);
-    while (!dirStack.isEmpty() && downloadPath.isEmpty())
-    {
-        QString curPath = dirStack.takeFirst();
-        QDir curDir = QDir(curPath);
-        QStringList dirList = curDir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Time|QDir::Reversed);
-        for (int i = 0; i < dirList.size() && downloadPath.isEmpty(); ++i)
-        {
-            dirStack.append(curPath + "/" + dirList[i]);
-            if (dir.exactMatch(dirList[i]))
-                downloadPath = curPath + "/" + dirList[i];
+    if (downloadPath.isEmpty()) {
+        PWSTR pPath = NULL;
+        static GUID downloads = {0x374de290, 0x123f, 0x4565, 0x91, 0x64, 0x39,
+                                 0xc4, 0x92, 0x5e, 0x46, 0x7b};
+        if (SHGetKnownFolderPath(downloads, 0, 0, &pPath) == S_OK) {
+            downloadPath = QDir::fromNativeSeparators(QString::fromWCharArray(pPath));
+            LocalFree(pPath);
+            if (downloadPath.isEmpty() || !QDir(downloadPath).exists()) {
+                downloadPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+            }
         }
     }
-    dirStack.clear();
     if (downloadPath.isEmpty())
         downloadPath = QDir::currentPath();
     myHomeDir = downloadPath;
