@@ -373,7 +373,38 @@ void MainWindow::on_bWrite_clicked()
                 return;
             }
             availablesectors = getNumberOfSectors(hRawDisk, &sectorsize);
+            if (!availablesectors)
+            {
+                //For external card readers you may not get device change notification when you remove the card/flash.
+                //(So no WM_DEVICECHANGE signal). Device stays but size goes to 0. [Is there special event for this on Windows??]
+                removeLockOnVolume(hVolume);
+                CloseHandle(hRawDisk);
+                CloseHandle(hFile);
+                CloseHandle(hVolume);
+                hRawDisk = INVALID_HANDLE_VALUE;
+                hFile = INVALID_HANDLE_VALUE;
+                hVolume = INVALID_HANDLE_VALUE;
+                passfail = false;
+                status = STATUS_IDLE;
+                return;
+
+            }
             numsectors = getFileSizeInSectors(hFile, sectorsize);
+            if (!numsectors)
+            {
+                //For external card readers you may not get device change notification when you remove the card/flash.
+                //(So no WM_DEVICECHANGE signal). Device stays but size goes to 0. [Is there special event for this on Windows??]
+                removeLockOnVolume(hVolume);
+                CloseHandle(hRawDisk);
+                CloseHandle(hFile);
+                CloseHandle(hVolume);
+                hRawDisk = INVALID_HANDLE_VALUE;
+                hFile = INVALID_HANDLE_VALUE;
+                hVolume = INVALID_HANDLE_VALUE;
+                status = STATUS_IDLE;
+                return;
+
+            }
             if (numsectors > availablesectors)
             {
                 bool datafound = false;

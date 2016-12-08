@@ -236,22 +236,25 @@ unsigned long long getNumberOfSectors(HANDLE handle, unsigned long long *sectors
 unsigned long long getFileSizeInSectors(HANDLE handle, unsigned long long sectorsize)
 {
     unsigned long long retVal = 0;
-    LARGE_INTEGER filesize;
-    if(GetFileSizeEx(handle, &filesize) == 0)
+    if (sectorsize) // avoid divide by 0
     {
-        // error
-        wchar_t *errormessage=NULL;
-        FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError(), 0, (LPWSTR)&errormessage, 0, NULL);
-        QString errText = QString::fromUtf16((const ushort *)errormessage);
-        QMessageBox::critical(NULL, QObject::tr("File Error"),
-                              QObject::tr("An error occurred while getting the file size.\n"
-                                          "Error %1: %2").arg(GetLastError()).arg(errText));
-        LocalFree(errormessage);
-        retVal = 0;
-    }
-    else
-    {
-        retVal = ((unsigned long long)filesize.QuadPart / sectorsize ) + (((unsigned long long)filesize.QuadPart % sectorsize )?1:0);
+        LARGE_INTEGER filesize;
+        if(GetFileSizeEx(handle, &filesize) == 0)
+        {
+            // error
+            wchar_t *errormessage=NULL;
+            FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError(), 0, (LPWSTR)&errormessage, 0, NULL);
+            QString errText = QString::fromUtf16((const ushort *)errormessage);
+            QMessageBox::critical(NULL, QObject::tr("File Error"),
+                                  QObject::tr("An error occurred while getting the file size.\n"
+                                              "Error %1: %2").arg(GetLastError()).arg(errText));
+            LocalFree(errormessage);
+            retVal = 0;
+        }
+        else
+        {
+            retVal = ((unsigned long long)filesize.QuadPart / sectorsize ) + (((unsigned long long)filesize.QuadPart % sectorsize )?1:0);
+        }
     }
     return(retVal);
 }
