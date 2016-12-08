@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     translator.load(":lang/diskimager_" + QLocale::system().name());
     app.installTranslator(&translator);
 
-    MainWindow mainwindow;
+    MainWindow& mainwindow = MainWindow::get();
     mainwindow.show();
     return app.exec();
 }

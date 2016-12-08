@@ -39,6 +39,8 @@
 #include "mainwindow.h"
 #include "elapsedtimer.h"
 
+std::shared_ptr<MainWindow> MainWindow::instance_p;
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setupUi(this);
