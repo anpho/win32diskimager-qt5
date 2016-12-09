@@ -1,18 +1,18 @@
 Image Writer for Microsoft Windows
-Release 0.9.5 - Unnamed Edition 2: The oddly released sequel
+Release 1.0.0 - The "Holy cow, we made a 1.0 Release" release.
 ======
 About:
 ======
-This utility is used to write img files to SD and USB memory devices.
-Simply run the utility, point it at your img, and then select the
+This utility is used to read and write raw image files to SD and USB memory devices.
+Simply run the utility, point it at your raw image, and then select the
 removable device to write to.
 
-This utility can not write CD-ROMs.
+This utility can not write CD-ROMs.  USB Floppy is NOT supported at this time.
 
 Future releases and source code are available on our Sourceforge project:
 http://sourceforge.net/projects/win32diskimager/
 
-This program is Beta , and has no warranty. It may eat your files,
+This program is Beta, and has no warranty. It may eat your files,
 call you names, or explode in a massive shower of code. The authors take
 no responsibility for these possible events.
 
@@ -20,7 +20,7 @@ no responsibility for these possible events.
 Build Instructions:
 ===================
 Requirements:
-1. Now using QT 5.2.1/MinGW 4.8.  Snapshot available in the Build Tools directory at
+1. Now using QT 5.7/MinGW 5.3.  Snapshot available in the Build Tools directory at
 https://sourceforge.net/projects/win32diskimager/files/Build%20Tools/
 
 Short Version:

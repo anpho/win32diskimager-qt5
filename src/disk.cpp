@@ -10,11 +10,11 @@
  *  GNU General Public License for more details.                      *
  *                                                                    *
  *  You should have received a copy of the GNU General Public License *
- *  along with this program; if not, see http://gnu.org/licenses/
+ *  along with this program; if not, see http://gnu.org/licenses/     *
  *  ---                                                               *
  *  Copyright (C) 2009, Justin Davis <tuxdavis@gmail.com>             *
- *  Copyright (C) 2009-2014 ImageWriter developers                    *
- *                          https://launchpad.net/~image-writer-devs  *
+ *  Copyright (C) 2009-2017 ImageWriter developers                    *
+ *                 https://sourceforge.net/projects/win32diskimager/  *
  **********************************************************************/
 
 #ifndef WINVER
@@ -182,7 +182,7 @@ char *readSectorDataFromHandle(HANDLE handle, unsigned long long startsector, un
         delete[] data;
         data = NULL;
     }
-    if (bytesread < (sectorsize * numsectors))
+    if (data && bytesread < (sectorsize * numsectors))
     {
             memset(data + bytesread,0,(sectorsize * numsectors) - bytesread);
     }
@@ -293,8 +293,8 @@ QString getDriveLabel(const char *drv)
     }
 
     // if malloc fails, nameBuf will be NULL.
-    //   if GetVolumeInfo fails, nameBuf will contain empty string
-    //   if all succeeds, nameBuf will contain label
+    // if GetVolumeInfo fails, nameBuf will contain empty string
+    // if all succeeds, nameBuf will contain label
     if(nameBuf == NULL)
     {
         retVal = QString("");
@@ -468,7 +468,7 @@ bool checkDriveType(char *name, ULONG *pid)
                     retVal = true;
                 }
                 else
-                    // IOCTL_STORAGE_CHECK_VERIFY2 fails on some devices under XP/Vista, try the other (slower) method, just in case.
+                // IOCTL_STORAGE_CHECK_VERIFY2 fails on some devices under XP/Vista, try the other (slower) method, just in case.
                 {
                     CloseHandle(hDevice);
                     hDevice = CreateFile(nameNoSlash, FILE_READ_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);

@@ -10,11 +10,11 @@
  *  GNU General Public License for more details.                      *
  *                                                                    *
  *  You should have received a copy of the GNU General Public License *
- *  along with this program; if not, see http://gnu.org/licenses/
+ *  along with this program; if not, see http://gnu.org/licenses/     *
  *  ---                                                               *
  *  Copyright (C) 2009, Justin Davis <tuxdavis@gmail.com>             *
- *  Copyright (C) 2009-2014 ImageWriter developers                    *
- *                          https://launchpad.net/~image-writer-devs  *
+ *  Copyright (C) 2009-2017 ImageWriter developers                    *
+ *                 https://sourceforge.net/projects/win32diskimager/  *
  **********************************************************************/
 
 #ifndef WINVER
@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     status = STATUS_IDLE;
     progressbar->reset();
     clipboard = QApplication::clipboard();
-    //bMd5Copy->setVisible(false);
     statusbar->showMessage(tr("Waiting for a task."));
     hVolume = INVALID_HANDLE_VALUE;
     hFile = INVALID_HANDLE_VALUE;
@@ -259,7 +258,7 @@ void MainWindow::generateMd5(char *filename, int hashish)
 
 
 // on an "editingFinished" signal (IE: return press), if the lineedit
-// contains a valid file, and generate the md5
+// contains a valid file, update the controls
 void MainWindow::on_leFile_editingFinished()
 {
     setReadWriteButtonState();
@@ -279,8 +278,8 @@ void MainWindow::on_bCancel_clicked()
     }
 }
 
-// if the md5 checkbox becomes "checked", verify the file and generate md5
-// when it's "unchecked", clear the md5 label
+// if the hash checkbox becomes "checked", verify the file and generate hash
+// when it's "unchecked", clear the hash label
 void MainWindow::on_HashType_stateChanged()
 {
     updateMd5Controls();
@@ -597,7 +596,6 @@ void MainWindow::on_bRead_clicked()
         double mbpersec;
         unsigned long long i, lasti, numsectors, filesize, spaceneeded = 0ull;
         int volumeID = cboxDevice->currentText().at(1).toLatin1() - 'A';
-        //int deviceID = cboxDevice->itemData(cboxDevice->currentIndex()).toInt();
         hVolume = getHandleOnVolume(volumeID, GENERIC_READ);
         if (hVolume == INVALID_HANDLE_VALUE)
         {

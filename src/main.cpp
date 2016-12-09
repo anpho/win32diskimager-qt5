@@ -10,11 +10,11 @@
  *  GNU General Public License for more details.                      *
  *                                                                    *
  *  You should have received a copy of the GNU General Public License *
- *  along with this program; if not, see http://gnu.org/licenses/
+ *  along with this program; if not, see http://gnu.org/licenses/     *
  *  ---                                                               *
  *  Copyright (C) 2009, Justin Davis <tuxdavis@gmail.com>             *
- *  Copyright (C) 2009-2014 ImageWriter developers                    *
- *                          https://launchpad.net/~image-writer-devs  *
+ *  Copyright (C) 2009-2017 ImageWriter developers                    *
+ *                 https://sourceforge.net/projects/win32diskimager/  *
  **********************************************************************/
 
 #ifndef WINVER
