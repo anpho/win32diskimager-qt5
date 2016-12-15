@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/lang">
+    <qresource prefix="/">
         <file>lang/diskimager_de_de.qm</file>
         <file>lang/diskimager_en.qm</file>
         <file>lang/diskimager_it.qm</file>

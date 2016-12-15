@@ -28,8 +28,8 @@ QT += widgets
 VERSION = 1.0
 VERSTR = '\\"$${VERSION}\\"'
 DEFINES += VER=\"$${VERSTR}\"
-DEFINES += WINVER=0x0601
-DEFINES += _WIN32_WINNT=0x0601
+DEFINES += WINVER=0x0700
+DEFINES += _WIN32_WINNT=0x0700
 QMAKE_TARGET_PRODUCT = "Win32 Image Writer"
 QMAKE_TARGET_DESCRIPTION = "Image Writer for Windows to write USB and SD images"
 QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2016 Windows ImageWriter Team"
@@ -52,11 +52,35 @@ RESOURCES += gui_icons.qrc translations.qrc
 
 RC_FILE = DiskImager.rc
 
-TRANSLATIONS  = lang/diskimager_en.ts\
-                lang/diskimager_it.ts\
-                lang/diskimager_de_de.ts\
-                lang/diskimager_pl.ts\
-                lang/diskimager_nl.ts\
-                lang/diskimager_zh_CN.ts\
-                lang/diskimager_zh_TW.ts\
-                lang/diskimager_ta_IN.ts
+LANGUAGES  = en\
+             it\
+             pl\
+             nl\
+             de_de\
+             zh_CN\
+             zh_TW\
+             ta_IN
+
+defineReplace(prependAll) {
+ for(a,$$1):result += $$2$${a}$$3
+ return($$result)
+}
+
+TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/lang/diskimager_, .ts)
+
+TRANSLATIONS_FILES =
+
+qtPrepareTool(LRELEASE, lrelease)
+for(tsfile, TRANSLATIONS) {
+    #qmfile = $$shadowed($$tsfile)
+    qmfile = $$tsfile
+    qmfile ~= s,.ts$,.qm,
+    #qmdir = $$dirname(qmfile)
+    #!exists($$qmdir) {
+    #    mkpath($$qmdir)|error("Aborting.")
+    #}
+    command = $$LRELEASE $$tsfile -qm $$qmfile
+    system($$command)|error("Failed to run: $$command")
+    TRANSLATIONS_FILES += $$qmfile
+}
+
