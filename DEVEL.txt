@@ -12,16 +12,16 @@ edit the line, so only the following remains:
 ssh://username@git.code.sf.net/u/username/win32diskimager
 
 create a new folder somewhere on your hard disk.
-right click the folder, choose "Git Clone..."
+right-click the folder, choose "Git Clone..."
 enter this into the line "URL:"
 ssh://username@git.code.sf.net/u/username/win32diskimager
 you will be asked for your sourceforge password.
 
-When you have edited files, right click on the folder, choose commit -> master.
+When you have edited files, right-click on the folder, choose commit -> master.
 You will be asked to enter information why you made the changes. This information is then stored locally on your computer.
-Next, publish the changes you have made to sourceforge by rightclick, and push. You will be asked for your sourceforge password. Now the changes are transferred to your version on sourcefore.
+Next, publish the changes you have made to sourceforge by right-click, and push. You will be asked for your sourceforge password. Now the changes are transferred to your version on sourceforge.
 
-Finally, login to sourcefore, navigate to your fork of win32diskimager, and click "Request Merge"
+Finally, login to sourceforge, navigate to your fork of win32diskimager, and click "Request Merge"
 Provide a meaningful summary and description, then click "Save". Now the developers are notified of your changes.
 
 ===========
