@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     app.setApplicationDisplayName(VER);
+    app.setAttribute(Qt::AA_UseDesktopOpenGL);
 
     QTranslator translator;
     translator.load(":lang/diskimager_" + QLocale::system().name());
