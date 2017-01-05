@@ -28,8 +28,8 @@ QT += widgets
 VERSION = 1.0
 VERSTR = '\\"$${VERSION}\\"'
 DEFINES += VER=\"$${VERSTR}\"
-DEFINES += WINVER=0x0700
-DEFINES += _WIN32_WINNT=0x0700
+DEFINES += WINVER=0x0601
+DEFINES += _WIN32_WINNT=0x0601
 QMAKE_TARGET_PRODUCT = "Win32 Image Writer"
 QMAKE_TARGET_DESCRIPTION = "Image Writer for Windows to write USB and SD images"
 QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2016 Windows ImageWriter Team"
