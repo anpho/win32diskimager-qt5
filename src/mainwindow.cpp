@@ -190,6 +190,10 @@ void MainWindow::on_tbBrowse_clicked()
 
     // See if there is a user-defined file extension.
     QString fileType = qgetenv("DiskImagerFiles");
+    if (fileType.length() && !fileType.endsWith(";;"))
+    {
+        fileType.append(";;");
+    }
     fileType.append(tr("Disk Images (*.img *.IMG);;*.*"));
     // create a generic FileDialog
     QFileDialog dialog(this, tr("Select a disk image"));
