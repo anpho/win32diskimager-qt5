@@ -61,9 +61,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         leFile->setText(fileInfo.absoluteFilePath());
     }
     // Add supported hash types.
-    cboxHash->addItem("MD5",QVariant(QCryptographicHash::Md5));
-    cboxHash->addItem("SHA1",QVariant(QCryptographicHash::Sha1));
-    cboxHash->addItem("SHA256",QVariant(QCryptographicHash::Sha256));
+    HashType->addItem("MD5",QVariant(QCryptographicHash::Md5));
+    HashType->addItem("SHA1",QVariant(QCryptographicHash::Sha1));
+    HashType->addItem("SHA256",QVariant(QCryptographicHash::Sha256));
 
     updateMd5Controls();
     setReadWriteButtonState();
@@ -98,6 +98,11 @@ MainWindow::~MainWindow()
     {
         delete[] sectorData;
         sectorData = NULL;
+    }
+    if (sectorData2 != NULL)
+    {
+        delete[] sectorData2;
+        sectorData2 = NULL;
     }
     if (elapsed_timer != NULL)
     {
@@ -156,6 +161,7 @@ void MainWindow::setReadWriteButtonState()
     // set read and write buttons according to status of file/device
     bRead->setEnabled(deviceSelected && fileSelected && (fi.exists() ? fi.isWritable() : true));
     bWrite->setEnabled(deviceSelected && fileSelected && fi.isReadable());
+    bVerify->setEnabled(deviceSelected && fileSelected && fi.isReadable());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -173,6 +179,16 @@ void MainWindow::closeEvent(QCloseEvent *event)
     else if (status == STATUS_WRITING)
     {
         if (QMessageBox::warning(this, tr("Exit?"), tr("Exiting now will result in a corrupt disk.\n"
+                                                       "Are you sure you want to exit?"),
+                                 QMessageBox::Yes|QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+        {
+            status = STATUS_EXIT;
+        }
+        event->ignore();
+    }
+    else if (status == STATUS_VERIFYING)
+    {
+        if (QMessageBox::warning(this, tr("Exit?"), tr("Exiting now will cancel verifying image.\n"
                                                        "Are you sure you want to exit?"),
                                  QMessageBox::Yes|QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
         {
@@ -280,13 +296,16 @@ void MainWindow::on_bCancel_clicked()
             status = STATUS_CANCELED;
         }
     }
-}
+    else if (status == STATUS_VERIFYING)
+    {
+        if (QMessageBox::warning(this, tr("Cancel?"), tr("Cancel Verify.\n"
+                                                         "Are you sure you want to cancel?"),
+                                 QMessageBox::Yes|QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+        {
+            status = STATUS_CANCELED;
+        }
 
-// if the hash checkbox becomes "checked", verify the file and generate hash
-// when it's "unchecked", clear the hash label
-void MainWindow::on_HashType_stateChanged()
-{
-    updateMd5Controls();
+    }
 }
 
 void MainWindow::on_bWrite_clicked()
@@ -321,6 +340,7 @@ void MainWindow::on_bWrite_clicked()
             bCancel->setEnabled(true);
             bWrite->setEnabled(false);
             bRead->setEnabled(false);
+            bVerify->setEnabled(false);
             double mbpersec;
             unsigned long long i, lasti, availablesectors, numsectors;
             int volumeID = cboxDevice->currentText().at(1).toLatin1() - 'A';
@@ -596,6 +616,7 @@ void MainWindow::on_bRead_clicked()
         bCancel->setEnabled(true);
         bWrite->setEnabled(false);
         bRead->setEnabled(false);
+        bVerify->setEnabled(false);
         status = STATUS_READING;
         double mbpersec;
         unsigned long long i, lasti, numsectors, filesize, spaceneeded = 0ull;
@@ -783,6 +804,284 @@ void MainWindow::on_bRead_clicked()
     elapsed_timer->stop();
 }
 
+// Verify image with device
+void MainWindow::on_bVerify_clicked()
+{
+    bool passfail = true;
+    if (!leFile->text().isEmpty())
+    {
+        QFileInfo fileinfo(leFile->text());
+        if (fileinfo.exists() && fileinfo.isFile() &&
+                fileinfo.isReadable() && (fileinfo.size() > 0) )
+        {
+            if (leFile->text().at(0) == cboxDevice->currentText().at(1))
+            {
+                QMessageBox::critical(this, tr("Verify Error"), tr("Image file cannot be located on the target device."));
+                return;
+            }
+            status = STATUS_VERIFYING;
+            bCancel->setEnabled(true);
+            bWrite->setEnabled(false);
+            bRead->setEnabled(false);
+            bVerify->setEnabled(false);
+            double mbpersec;
+            unsigned long long i, lasti, availablesectors, numsectors, result;
+            int volumeID = cboxDevice->currentText().at(1).toLatin1() - 'A';
+            hVolume = getHandleOnVolume(volumeID, GENERIC_READ);
+            if (hVolume == INVALID_HANDLE_VALUE)
+            {
+                status = STATUS_IDLE;
+                bCancel->setEnabled(false);
+                setReadWriteButtonState();
+                return;
+            }
+            DWORD deviceID = getDeviceID(hVolume);
+            if (!getLockOnVolume(hVolume))
+            {
+                CloseHandle(hVolume);
+                status = STATUS_IDLE;
+                hVolume = INVALID_HANDLE_VALUE;
+                bCancel->setEnabled(false);
+                setReadWriteButtonState();
+                return;
+            }
+            if (!unmountVolume(hVolume))
+            {
+                removeLockOnVolume(hVolume);
+                CloseHandle(hVolume);
+                status = STATUS_IDLE;
+                hVolume = INVALID_HANDLE_VALUE;
+                bCancel->setEnabled(false);
+                setReadWriteButtonState();
+                return;
+            }
+            hFile = getHandleOnFile(LPCWSTR(leFile->text().data()), GENERIC_READ);
+            if (hFile == INVALID_HANDLE_VALUE)
+            {
+                removeLockOnVolume(hVolume);
+                CloseHandle(hVolume);
+                status = STATUS_IDLE;
+                hVolume = INVALID_HANDLE_VALUE;
+                bCancel->setEnabled(false);
+                setReadWriteButtonState();
+                return;
+            }
+            hRawDisk = getHandleOnDevice(deviceID, GENERIC_READ);
+            if (hRawDisk == INVALID_HANDLE_VALUE)
+            {
+                removeLockOnVolume(hVolume);
+                CloseHandle(hFile);
+                CloseHandle(hVolume);
+                status = STATUS_IDLE;
+                hVolume = INVALID_HANDLE_VALUE;
+                hFile = INVALID_HANDLE_VALUE;
+                bCancel->setEnabled(false);
+                setReadWriteButtonState();
+                return;
+            }
+            availablesectors = getNumberOfSectors(hRawDisk, &sectorsize);
+            if (!availablesectors)
+            {
+                //For external card readers you may not get device change notification when you remove the card/flash.
+                //(So no WM_DEVICECHANGE signal). Device stays but size goes to 0. [Is there special event for this on Windows??]
+                removeLockOnVolume(hVolume);
+                CloseHandle(hRawDisk);
+                CloseHandle(hFile);
+                CloseHandle(hVolume);
+                hRawDisk = INVALID_HANDLE_VALUE;
+                hFile = INVALID_HANDLE_VALUE;
+                hVolume = INVALID_HANDLE_VALUE;
+                passfail = false;
+                status = STATUS_IDLE;
+                return;
+
+            }
+            numsectors = getFileSizeInSectors(hFile, sectorsize);
+            if (!numsectors)
+            {
+                //For external card readers you may not get device change notification when you remove the card/flash.
+                //(So no WM_DEVICECHANGE signal). Device stays but size goes to 0. [Is there special event for this on Windows??]
+                removeLockOnVolume(hVolume);
+                CloseHandle(hRawDisk);
+                CloseHandle(hFile);
+                CloseHandle(hVolume);
+                hRawDisk = INVALID_HANDLE_VALUE;
+                hFile = INVALID_HANDLE_VALUE;
+                hVolume = INVALID_HANDLE_VALUE;
+                status = STATUS_IDLE;
+                return;
+
+            }
+            if (numsectors > availablesectors)
+            {
+                bool datafound = false;
+                i = availablesectors;
+                unsigned long nextchunksize = 0;
+                while ( (i < numsectors) && (datafound == false) )
+                {
+                    nextchunksize = ((numsectors - i) >= 1024ul) ? 1024ul : (numsectors - i);
+                    sectorData = readSectorDataFromHandle(hFile, i, nextchunksize, sectorsize);
+                    if(sectorData == NULL)
+                    {
+                        // if there's an error verifying the truncated data, just move on to the
+                        //  write, as we don't care about an error in a section that we're not writing...
+                        i = numsectors + 1;
+                    } else {
+                        unsigned int j = 0;
+                        unsigned limit = nextchunksize * sectorsize;
+                        while ( (datafound == false) && ( j < limit ) )
+                        {
+                            if(sectorData[j++] != 0)
+                            {
+                                datafound = true;
+                            }
+                        }
+                        i += nextchunksize;
+                    }
+                }
+                // delete the allocated sectorData
+                delete[] sectorData;
+                sectorData = NULL;
+                // build the string for the warning dialog
+                std::ostringstream msg;
+                msg << "Size of image larger than device:"
+                    << "\n  Image: " << numsectors << " sectors"
+                    << "\n  Device: " << availablesectors << " sectors"
+                    << "\n  Sector Size: " << sectorsize
+                    << "\n\nThe extra space " << ((datafound) ? "DOES" : "does not") << " appear to contain data"
+                    << "\n\nContinue Anyway?";
+                if(QMessageBox::warning(this, tr("Size Mismatch!"),
+                                        tr(msg.str().c_str()), QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok)
+                {
+                    // truncate the image at the device size...
+                    numsectors = availablesectors;
+                }
+                else    // Cancel
+                {
+                    removeLockOnVolume(hVolume);
+                    CloseHandle(hRawDisk);
+                    CloseHandle(hFile);
+                    CloseHandle(hVolume);
+                    status = STATUS_IDLE;
+                    hVolume = INVALID_HANDLE_VALUE;
+                    hFile = INVALID_HANDLE_VALUE;
+                    hRawDisk = INVALID_HANDLE_VALUE;
+                    bCancel->setEnabled(false);
+                    setReadWriteButtonState();
+                    return;
+                }
+            }
+            progressbar->setRange(0, (numsectors == 0ul) ? 100 : (int)numsectors);
+            update_timer.start();
+            elapsed_timer->start();
+            lasti = 0ul;
+            for (i = 0ul; i < numsectors && status == STATUS_VERIFYING; i += 1024ul)
+            {
+                sectorData = readSectorDataFromHandle(hFile, i, (numsectors - i >= 1024ul) ? 1024ul:(numsectors - i), sectorsize);
+                if (sectorData == NULL)
+                {
+                    removeLockOnVolume(hVolume);
+                    CloseHandle(hRawDisk);
+                    CloseHandle(hFile);
+                    CloseHandle(hVolume);
+                    status = STATUS_IDLE;
+                    hRawDisk = INVALID_HANDLE_VALUE;
+                    hFile = INVALID_HANDLE_VALUE;
+                    hVolume = INVALID_HANDLE_VALUE;
+                    bCancel->setEnabled(false);
+                    setReadWriteButtonState();
+                    return;
+                }
+                sectorData2 = readSectorDataFromHandle(hRawDisk, i, (numsectors - i >= 1024ul) ? 1024ul:(numsectors - i), sectorsize);
+                if (sectorData2 == NULL)
+                {
+                    QMessageBox::critical(this, tr("Verify Failure"), tr("Verification failed at sector: %1").arg(i));
+                    removeLockOnVolume(hVolume);
+                    CloseHandle(hRawDisk);
+                    CloseHandle(hFile);
+                    CloseHandle(hVolume);
+                    status = STATUS_IDLE;
+                    hRawDisk = INVALID_HANDLE_VALUE;
+                    hFile = INVALID_HANDLE_VALUE;
+                    hVolume = INVALID_HANDLE_VALUE;
+                    bCancel->setEnabled(false);
+                    setReadWriteButtonState();
+                    return;
+                }
+                result = memcmp(sectorData, sectorData2, ((numsectors - i >= 1024ul) ? 1024ul:(numsectors - i)) * sectorsize);
+                if (result)
+                {
+                    QMessageBox::critical(this, tr("Verify Failure"), tr("Verification failed at sector: %1").arg(i));
+                    passfail = false;
+                    break;
+
+                }
+                if (update_timer.elapsed() >= ONE_SEC_IN_MS)
+                {
+                    mbpersec = (((double)sectorsize * (i - lasti)) * ((float)ONE_SEC_IN_MS / update_timer.elapsed())) / 1024.0 / 1024.0;
+                    statusbar->showMessage(QString("%1MB/s").arg(mbpersec));
+                    update_timer.start();
+                    elapsed_timer->update(i, numsectors);
+                    lasti = i;
+                }
+                delete[] sectorData;
+                delete[] sectorData2;
+                sectorData = NULL;
+                sectorData2 = NULL;
+                progressbar->setValue(i);
+                QCoreApplication::processEvents();
+            }
+            removeLockOnVolume(hVolume);
+            CloseHandle(hRawDisk);
+            CloseHandle(hFile);
+            CloseHandle(hVolume);
+            delete[] sectorData;
+            delete[] sectorData2;
+            sectorData = NULL;
+            sectorData2 = NULL;
+            hRawDisk = INVALID_HANDLE_VALUE;
+            hFile = INVALID_HANDLE_VALUE;
+            hVolume = INVALID_HANDLE_VALUE;
+            if (status == STATUS_CANCELED){
+                passfail = false;
+            }
+
+        }
+        else if (!fileinfo.exists() || !fileinfo.isFile())
+        {
+            QMessageBox::critical(this, tr("File Error"), tr("The selected file does not exist."));
+            passfail = false;
+        }
+        else if (!fileinfo.isReadable())
+        {
+            QMessageBox::critical(this, tr("File Error"), tr("You do not have permision to read the selected file."));
+            passfail = false;
+        }
+        else if (fileinfo.size() == 0)
+        {
+            QMessageBox::critical(this, tr("File Error"), tr("The specified file contains no data."));
+            passfail = false;
+        }
+        progressbar->reset();
+        statusbar->showMessage(tr("Done."));
+        bCancel->setEnabled(false);
+        setReadWriteButtonState();
+        if (passfail){
+            QMessageBox::information(this, tr("Complete"), tr("Verify Successful."));
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this, tr("File Error"), tr("Please specify an image file to use."));
+    }
+    if (status == STATUS_EXIT)
+    {
+        close();
+    }
+    status = STATUS_IDLE;
+    elapsed_timer->stop();
+}
+
 // getLogicalDrives sets cBoxDevice with any logical drives found, as long
 // as they indicate that they're either removable, or fixed and on USB bus
 void MainWindow::getLogicalDrives()
@@ -899,7 +1198,7 @@ void MainWindow::updateMd5Controls()
     bHashCopy->setEnabled(false);
     hashLabel->clear();
 
-    if (cboxHash->currentIndex() != 0 && !leFile->text().isEmpty() && validFile)
+    if (HashType->currentIndex() != 0 && !leFile->text().isEmpty() && validFile)
     {
             bHashGen->setEnabled(true);
     }
@@ -914,13 +1213,13 @@ void MainWindow::updateMd5Controls()
     bHashCopy->setEnabled(haveMd5);
 }
 
-void MainWindow::on_cboxHash_currentIndexChanged()
+void MainWindow::on_HashType_currentIndexChanged()
 {
     updateMd5Controls();
 }
 
 void MainWindow::on_bHashGen_clicked()
 {
-    generateMd5(leFile->text().toLatin1().data(),cboxHash->currentData().toInt());
+    generateMd5(leFile->text().toLatin1().data(),HashType->currentData().toInt());
 
 }
