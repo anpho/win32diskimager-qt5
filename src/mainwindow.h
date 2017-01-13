@@ -58,7 +58,6 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 private slots:
         void on_HashType_currentIndexChanged();
         void on_bHashGen_clicked();
-        void on_HashType_stateChanged();
 
 private:
         static std::shared_ptr<MainWindow> instance_p;
