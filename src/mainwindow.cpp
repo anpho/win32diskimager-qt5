@@ -61,11 +61,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         leFile->setText(fileInfo.absoluteFilePath());
     }
     // Add supported hash types.
-    HashType->addItem("MD5",QVariant(QCryptographicHash::Md5));
-    HashType->addItem("SHA1",QVariant(QCryptographicHash::Sha1));
-    HashType->addItem("SHA256",QVariant(QCryptographicHash::Sha256));
-
-    updateMd5Controls();
+    cboxHashType->addItem("MD5",QVariant(QCryptographicHash::Md5));
+    cboxHashType->addItem("SHA1",QVariant(QCryptographicHash::Sha1));
+    cboxHashType->addItem("SHA256",QVariant(QCryptographicHash::Sha256));
+    connect(this->cboxHashType, SIGNAL(currentIndexChanged(int)), SLOT(on_cboxHashType_IdxChg()));
+    updateHashControls();
     setReadWriteButtonState();
     sectorData = NULL;
     sectorsize = 0ul;
@@ -108,6 +108,10 @@ MainWindow::~MainWindow()
     {
         delete elapsed_timer;
         elapsed_timer = NULL;
+    }
+    if (cboxHashType != NULL)
+    {
+       cboxHashType->clear();
     }
 }
 
@@ -239,7 +243,7 @@ void MainWindow::on_tbBrowse_clicked()
             myHomeDir = newFileInfo.absolutePath();
         }
         setReadWriteButtonState();
-        updateMd5Controls();
+        updateHashControls();
     }
 }
 
@@ -253,7 +257,7 @@ void MainWindow::on_bHashCopy_clicked()
 }
 
 // generates the hash
-void MainWindow::generateMd5(char *filename, int hashish)
+void MainWindow::generateHash(char *filename, int hashish)
 {
     hashLabel->setText(tr("Generating..."));
     QApplication::processEvents();
@@ -282,7 +286,7 @@ void MainWindow::generateMd5(char *filename, int hashish)
 void MainWindow::on_leFile_editingFinished()
 {
     setReadWriteButtonState();
-    updateMd5Controls();
+    updateHashControls();
 }
 
 void MainWindow::on_bCancel_clicked()
@@ -790,7 +794,7 @@ void MainWindow::on_bRead_clicked()
             QMessageBox::information(this, tr("Complete"), tr("Read Successful."));
 
         }
-        updateMd5Controls();
+        updateHashControls();
     }
     else
     {
@@ -1189,7 +1193,7 @@ bool MainWindow::nativeEvent(const QByteArray &type, void *vMsg, long *result)
     return false; // let qt handle the rest
 }
 
-void MainWindow::updateMd5Controls()
+void MainWindow::updateHashControls()
 {
     QFileInfo fileinfo(leFile->text());
     bool validFile = (fileinfo.exists() && fileinfo.isFile() &&
@@ -1198,7 +1202,7 @@ void MainWindow::updateMd5Controls()
     bHashCopy->setEnabled(false);
     hashLabel->clear();
 
-    if (HashType->currentIndex() != 0 && !leFile->text().isEmpty() && validFile)
+    if (cboxHashType->currentIndex() != 0 && !leFile->text().isEmpty() && validFile)
     {
             bHashGen->setEnabled(true);
     }
@@ -1207,19 +1211,18 @@ void MainWindow::updateMd5Controls()
         bHashGen->setEnabled(false);
     }
 
-    // if the md5 checkbox is checked, and there's a value is the md5 label,
-    //   make the copy button visible
-    bool haveMd5 = !(hashLabel->text().isEmpty());
-    bHashCopy->setEnabled(haveMd5);
+    // if there's a value in the md5 label make the copy button visible
+    bool haveHash = !(hashLabel->text().isEmpty());
+    bHashCopy->setEnabled(haveHash );
 }
 
-void MainWindow::on_HashType_currentIndexChanged()
+void MainWindow::on_cboxHashType_IdxChg()
 {
-    updateMd5Controls();
+    updateHashControls();
 }
 
 void MainWindow::on_bHashGen_clicked()
 {
-    generateMd5(leFile->text().toLatin1().data(),HashType->currentData().toInt());
+    generateHash(leFile->text().toLatin1().data(),cboxHashType->currentData().toInt());
 
 }

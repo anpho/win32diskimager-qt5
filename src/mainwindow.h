@@ -56,7 +56,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
         void on_leFile_editingFinished();
         void on_bHashCopy_clicked();
 private slots:
-        void on_HashType_currentIndexChanged();
+        void on_cboxHashType_IdxChg();
         void on_bHashGen_clicked();
 
 private:
@@ -68,7 +68,7 @@ private:
         void saveSettings();
         void loadSettings();
         void initializeHomeDir();
-        void updateMd5Controls();
+        void updateHashControls();
 
         HANDLE hVolume;
         HANDLE hFile;
@@ -81,7 +81,7 @@ private:
         QTime update_timer;
         ElapsedTimer *elapsed_timer = NULL;
         QClipboard *clipboard;
-        void generateMd5(char *filename, int hashish);
+        void generateHash(char *filename, int hashish);
         QString myHomeDir;
 };
 
