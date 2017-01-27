@@ -26,7 +26,7 @@
 
 #include <QtWidgets>
 #include <windows.h>
-#include <memory>
+//#include <memory>
 #include "ui_mainwindow.h"
 
 class QClipboard;
@@ -36,11 +36,11 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 {
     Q_OBJECT
     public:
-        static MainWindow& get() {
+        static MainWindow* getInstance() {
             // !NOT thread safe  - first call from main only
-            if (!instance_p.get())
-                instance_p.reset( new MainWindow());
-            return *instance_p.get();
+            if (!instance)
+                instance = new MainWindow();
+            return instance;
         }
 
         ~MainWindow();
@@ -58,10 +58,10 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 private slots:
         void on_cboxHashType_IdxChg();
         void on_bHashGen_clicked();
-
+protected:
+        MainWindow(QWidget* = NULL);
 private:
-        static std::shared_ptr<MainWindow> instance_p;
-        MainWindow(QWidget *parent=0);
+        static MainWindow* instance;
         // find attached devices
         void getLogicalDrives();
         void setReadWriteButtonState();

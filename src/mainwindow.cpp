@@ -39,7 +39,7 @@
 #include "mainwindow.h"
 #include "elapsedtimer.h"
 
-std::shared_ptr<MainWindow> MainWindow::instance_p;
+MainWindow* MainWindow::instance = NULL;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {

@@ -29,6 +29,7 @@
 #include "disk.h"
 #include "mainwindow.h"
 
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
     translator.load(":lang/diskimager_" + QLocale::system().name());
     app.installTranslator(&translator);
 
-    MainWindow& mainwindow = MainWindow::get();
-    mainwindow.show();
+    MainWindow* mainwindow = MainWindow::getInstance();
+    mainwindow->show();
     return app.exec();
 }
