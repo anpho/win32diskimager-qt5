@@ -26,42 +26,42 @@
     <message>
         <location filename="../mainwindow.ui" line="128"/>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>雜湊值</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="148"/>
         <source>Select hash type for verification</source>
-        <translation type="unfinished"></translation>
+        <translation>選取要用來驗證的雜湊類型</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="152"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>無</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <source>Generate selected hash on file</source>
-        <translation type="unfinished"></translation>
+        <translation>生成檔案所選取的雜湊值類型</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="172"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>生成</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="185"/>
         <source>Copy hash to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>複製雜湊值到剪貼簿中</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="191"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>複製</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="246"/>
         <source>Read Only Allocated Partitions</source>
-        <translation type="unfinished"></translation>
+        <translation>唯讀的未分配分割區</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="268"/>
@@ -106,12 +106,12 @@
     <message>
         <location filename="../mainwindow.ui" line="361"/>
         <source>Verify the image file with the selected drive</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證選定磁碟的映像檔</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="364"/>
         <source>Verify Only</source>
-        <translation type="unfinished"></translation>
+        <translation>僅驗證</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="377"/>
@@ -198,29 +198,31 @@ Are you sure you want to continue?</source>
     <message>
         <location filename="../mainwindow.cpp" line="53"/>
         <source>Waiting for a task.</source>
-        <translation type="unfinished"></translation>
+        <translation>等待工作。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="195"/>
         <source>Exiting now will cancel verifying image.
 Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>現在結束將會取消驗證映像檔。
+您確定想要結束嗎？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="217"/>
         <source>Disk Images (*.img *.IMG);;*.*</source>
-        <translation type="unfinished"></translation>
+        <translation>映像檔 (*.img *.IMG);;*.*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="305"/>
         <source>Cancel Verify.
 Are you sure you want to cancel?</source>
-        <translation type="unfinished"></translation>
+        <translation>取消驗證。
+您確定您想要取消嗎？</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="475"/>
         <source>Not enough available space!</source>
-        <translation type="unfinished"></translation>
+        <translation>沒有足夠的可用空間！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="561"/>
@@ -296,7 +298,7 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="792"/>
         <source>Read Canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation>讀取已取消。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="794"/>
@@ -316,29 +318,29 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="823"/>
         <source>Verify Error</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證錯誤</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"/>
         <source>Size Mismatch!</source>
-        <translation type="unfinished"></translation>
+        <translation>大小不符合！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verify Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證失敗</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verification failed at sector: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證失敗，磁區：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Verify Successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證成功。</translation>
     </message>
 </context>
 <context>
@@ -382,7 +384,8 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="60"/>
         <source>An error occurred when attempting to get information on volume.
 Error %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>嘗試取得卷冊資訊發生錯誤。
+錯誤 %1： %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="97"/>
