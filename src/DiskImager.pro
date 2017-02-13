@@ -32,7 +32,7 @@ DEFINES += WINVER=0x0601
 DEFINES += _WIN32_WINNT=0x0601
 QMAKE_TARGET_PRODUCT = "Win32 Image Writer"
 QMAKE_TARGET_DESCRIPTION = "Image Writer for Windows to write USB and SD images"
-QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2016 Windows ImageWriter Team"
+QMAKE_TARGET_COPYRIGHT = "Copyright (C) 2009-2017 Windows ImageWriter Team"
 
 # Input
 HEADERS += disk.h\
@@ -52,11 +52,11 @@ RESOURCES += gui_icons.qrc translations.qrc
 
 RC_FILE = DiskImager.rc
 
-LANGUAGES  = en\
+LANGUAGES  = es\
              it\
              pl\
              nl\
-             de_de\
+             de\
              zh_CN\
              zh_TW\
              ta_IN

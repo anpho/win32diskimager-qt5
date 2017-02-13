@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>lang/diskimager_de_de.qm</file>
-        <file>lang/diskimager_en.qm</file>
+        <file>lang/diskimager_de.qm</file>
+        <file>lang/diskimager_es.qm</file>
         <file>lang/diskimager_it.qm</file>
         <file>lang/diskimager_nl.qm</file>
         <file>lang/diskimager_pl.qm</file>
