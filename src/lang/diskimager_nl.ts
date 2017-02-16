@@ -31,37 +31,37 @@
     <message>
         <location filename="../mainwindow.ui" line="148"/>
         <source>Select hash type for verification</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kies hash type voor verificatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="152"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <source>Generate selected hash on file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Genereer gekozen hash type</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="172"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Genereer</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="185"/>
         <source>Copy hash to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieer hash naar klembord</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="191"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieer</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="246"/>
         <source>Read Only Allocated Partitions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gealloceerde Partities Alleen Lezen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="268"/>
@@ -106,12 +106,12 @@
     <message>
         <location filename="../mainwindow.ui" line="361"/>
         <source>Verify the image file with the selected drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controleer het image met de geselecteerde schijf</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="364"/>
         <source>Verify Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alleen controleren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="377"/>
@@ -195,13 +195,14 @@ Weet u zeker dat u door wilt gaan?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="53"/>
         <source>Waiting for a task.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wacht op een taak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="195"/>
         <source>Exiting now will cancel verifying image.
 Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nu afsluiten breekt het controleren van het image af.
+Weet u zeker dat u wilt afsluiten?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="217"/>
@@ -212,12 +213,13 @@ Are you sure you want to exit?</source>
         <location filename="../mainwindow.cpp" line="305"/>
         <source>Cancel Verify.
 Are you sure you want to cancel?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controleren afbreken.
+Weet u zeker dat u wilt fabreken?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="475"/>
         <source>Not enough available space!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noet genoeg beschikbare ruimte!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="561"/>
@@ -293,7 +295,7 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="792"/>
         <source>Read Canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lezen is afgebroken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="794"/>
@@ -313,29 +315,29 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="823"/>
         <source>Verify Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fout in Controle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"/>
         <source>Size Mismatch!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Grootte komt niet overeen!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verify Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controle mislukt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verification failed at sector: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controle mislukt in sector: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Verify Successful.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controle Geslaagd.</translation>
     </message>
 </context>
 <context>
@@ -380,7 +382,8 @@ Error %1: %2</translation>
         <location filename="../disk.cpp" line="60"/>
         <source>An error occurred when attempting to get information on volume.
 Error %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Een fout is opgetreden bij het opvragen van de informatie van het volume.
+Error %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="97"/>
