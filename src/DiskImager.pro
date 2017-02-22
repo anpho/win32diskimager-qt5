@@ -57,6 +57,7 @@ LANGUAGES  = es\
              pl\
              nl\
              de\
+             fr\
              zh_CN\
              zh_TW\
              ta_IN
