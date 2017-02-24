@@ -20,27 +20,52 @@ no responsibility for these possible events.
 Build Instructions:
 ===================
 Requirements:
-1. Now using QT 5.7/MinGW 5.3.  Snapshot available in the Build Tools directory at
-https://sourceforge.net/projects/win32diskimager/files/Build%20Tools/
+1. Now using QT 5.7/MinGW 5.3.  
 
 Short Version:
-1. Install the Qt Full SDK and use QT Creator to build.  Included batch files 
-   no longer updated and may be deleted in the future.
+1. Install the Qt Full SDK and use QT Creator to build.  
    See DEVEL.txt for details
 
 =============
 New Features:
 =============
-Add user defined file types capability.
-Some additional language translations.
+Verify Image - Now you can verify an image file with a device.  This compares
+the image file to the device, not the device to the image file (i.e. if you
+write a 2G image file to an 8G device, it will only read 2G of the device for
+comparison).
+Additional checksums - Added SHA1 and SHA256 checksums.
+Read Only Allocated Partitions - Option to read only to the end of the defined partition(s).  Ex:  Write a 2G image to a 32G device, reading it to a new file will only read to the end of
+the defined partition (2G).
+Save last opened folder - The program will now store the last used folder in
+the Windows registry and default to it on next execution.
+Additional language translations (thanks to devoted users for contributing).
+
+=============
+Bugs Fixed
+=============
+https://bugs.launchpad.net/win32-image-writer
+LP: 1285238 - Need to check filename text box for valid filename (not just a directory).
+LP: 1323876 - Installer doesn't create the correct permissions on install
+LP: 1330125 - Multi-partition SD card only partly copied
+https://sourceforge.net/p/win32diskimager/tickets/
+SF:  7 - Windows 8 x64 USB floppy access denied. Possibly imaging C drive
+SF:  8 - Browse Dialog doesnt open then crashes application
+SF:  9 - Cannot Read SD Card
+SF: 13 - 0.9.5 version refuses to open read-only image
+SF: 15 - Open a image for write, bring window in the background
+SF: 27 - Error1: Incorrect function
+SF: 35 - Mismatch between allocating and deleting memory buffer
+SF: 39 - Miswrote to SSD
+SF: 40 - Disk Imager scans whole %USERPROFILE% on start
+SF: 45 - Translation files adustment
+
+
 
 =============
 Known Issues:
 =============
-
 *  Lack of reformat capabilities.
 *  Lack of file compression support
-*  Does not work with USB Floppy drives.
 
 These are being looked into for future releases.
 

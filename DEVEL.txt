@@ -33,8 +33,8 @@ welcome-> next
 qt account -> leave all empty, next
 setup -> next
 installation folder: c:\qt -> next
-select components: qt 5.4, deselect all, select minGW 4.9.1 -> next
-***and tools-mingw4.9.1
+select components: qt 5.7, deselect all, select minGW 5.3.0 -> next
+***and tools-mingw5.3.0
 license Agreement: agree -> next
 start menu shortcuts -> next
 install
@@ -52,8 +52,8 @@ debug->start debugging->start debugging (F5)
 Add a new translation:
 ======================
 Adding a new translation:
-Install Qt Linguist from here:
-http://qt-apps.org/content/show.php/Qt+Linguist+Download?content=89360
+First, install QT as described above.
+Next, run QT Linguist from the Windows Start Menu->QT folder.
 File -> Open diskimager_en.ts
 edit-> translation file settings, set target language and country/region.
 file-> save as Open diskimager_??.ts

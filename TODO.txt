@@ -1,12 +1,9 @@
-+1.0 Work list:
+2.0 Work list:
 
 
 Bug fixes:
     Drag & Drop in Windows 7
-    USB Floppy (support or specifically remove from device list)
-    Issue with default directory still?  Need to test. 
 
 Features:
     Compression support
-    Write verification
     Reformat device
