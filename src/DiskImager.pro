@@ -24,7 +24,6 @@ INCLUDEPATH += .
 #CONFIG += release
 DEFINES -= UNICODE
 QT += widgets
-#DEFINES += QT_NO_CAST_FROM_ASCII
 VERSION = 1.0
 VERSTR = '\\"$${VERSION}\\"'
 DEFINES += VER=\"$${VERSTR}\"
@@ -73,13 +72,8 @@ TRANSLATIONS_FILES =
 
 qtPrepareTool(LRELEASE, lrelease)
 for(tsfile, TRANSLATIONS) {
-    #qmfile = $$shadowed($$tsfile)
     qmfile = $$tsfile
     qmfile ~= s,.ts$,.qm,
-    #qmdir = $$dirname(qmfile)
-    #!exists($$qmdir) {
-    #    mkpath($$qmdir)|error("Aborting.")
-    #}
     command = $$LRELEASE $$tsfile -qm $$qmfile
     system($$command)|error("Failed to run: $$command")
     TRANSLATIONS_FILES += $$qmfile
