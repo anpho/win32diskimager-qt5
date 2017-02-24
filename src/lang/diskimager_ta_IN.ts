@@ -116,7 +116,7 @@
     <message>
         <location filename="../mainwindow.ui" line="377"/>
         <source>Exit Win32 Disk Imager</source>
-        <translation type="unfinished">வெளியேறு</translation>
+        <translation>வெளியேறு</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="380"/>

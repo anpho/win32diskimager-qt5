@@ -97,7 +97,7 @@
         <location filename="../mainwindow.ui" line="351"/>
         <source>Write data from &apos;Image File&apos; to &apos;Device&apos;</source>
         <translatorcomment>prawdopodobnie oryginał zepsuty, EDIT(31.08.13): chyba jednak codziło tylko o nazwę pola.</translatorcomment>
-        <translation type="unfinished">Zapisz dane w &quot;Plik Obrazu&apos; do &quot;Urządzenie&apos;</translation>
+        <translation>Zapisz dane w &quot;Plik Obrazu&apos; do &quot;Urządzenie&apos;</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="354"/>
@@ -380,7 +380,8 @@ Błąd %1: %2</translation>
         <location filename="../disk.cpp" line="60"/>
         <source>An error occurred when attempting to get information on volume.
 Error %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wystąpił błąd podczas próby uzyskania informacji na temat objętości.
+Błąd %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="97"/>
@@ -435,8 +436,8 @@ Błąd %1: %2</translation>
         <source>An error occurred when attempting to read data from handle.
 Error %1: %2</source>
         <translatorcomment>o co kaman? Do obsługiwanego miejsca? Albo do kontroli? Miejmy nadzieję ze to nie wyskoczy podczas użytkowania :)</translatorcomment>
-        <translation type="unfinished">An error occurred when attempting to read data from handle.
-Error %1: %2</translation>
+        <translation type="unfinished">Wystąpił błąd podczas próby odczytu danych z uchwytem.
+Błądr %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="205"/>
@@ -448,8 +449,8 @@ Error %1: %2</translation>
         <source>An error occurred when attempting to write data to handle.
 Error %1: %2</source>
         <translatorcomment>o co kaman? Do obsługiwanego miejsca? Albo do kontroli? Miejmy nadzieję ze to nie wyskoczy podczas użytkowania :)</translatorcomment>
-        <translation type="unfinished">An error occurred when attempting to write data to handle.
-Error %1: %2</translation>
+        <translation type="unfinished">Wystąpił błąd podczas próby zapisu danych w obsłudze.
+Błąd %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="225"/>
