@@ -26,42 +26,42 @@
     <message>
         <location filename="../mainwindow.ui" line="128"/>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>校验值</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="148"/>
         <source>Select hash type for verification</source>
-        <translation type="unfinished"></translation>
+        <translation>选择验证的校验值类型</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="152"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>无</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <source>Generate selected hash on file</source>
-        <translation type="unfinished"></translation>
+        <translation>从文件生成校验值</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="172"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>生成</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="185"/>
         <source>Copy hash to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制校验值到剪贴板</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="191"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>复制</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="246"/>
         <source>Read Only Allocated Partitions</source>
-        <translation type="unfinished"></translation>
+        <translation>仅读取已分配分区</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="268"/>
@@ -106,12 +106,12 @@
     <message>
         <location filename="../mainwindow.ui" line="361"/>
         <source>Verify the image file with the selected drive</source>
-        <translation type="unfinished"></translation>
+        <translation>与选择的驱动盘校验映像文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="364"/>
         <source>Verify Only</source>
-        <translation type="unfinished"></translation>
+        <translation>仅校验</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="377"/>
@@ -198,29 +198,31 @@ Are you sure you want to continue?</source>
     <message>
         <location filename="../mainwindow.cpp" line="53"/>
         <source>Waiting for a task.</source>
-        <translation type="unfinished"></translation>
+        <translation>等待任务完成。.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="195"/>
         <source>Exiting now will cancel verifying image.
 Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>现在退出将取消校验映像文件.
+仍然退出?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="217"/>
         <source>Disk Images (*.img *.IMG);;*.*</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘映像 (*.img *.IMG);;*.*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="305"/>
         <source>Cancel Verify.
 Are you sure you want to cancel?</source>
-        <translation type="unfinished"></translation>
+        <translation>确认取消.
+确定要取消?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="475"/>
         <source>Not enough available space!</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘空间不足！</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="561"/>
@@ -296,7 +298,7 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="792"/>
         <source>Read Canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation>读取已取消.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="794"/>
@@ -316,29 +318,29 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="823"/>
         <source>Verify Error</source>
-        <translation type="unfinished"></translation>
+        <translation>校验错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"/>
         <source>Size Mismatch!</source>
-        <translation type="unfinished"></translation>
+        <translation>大小不匹配!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verify Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>校验失败</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verification failed at sector: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>校验失败的扇区: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Verify Successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>校验成功.</translation>
     </message>
 </context>
 <context>
@@ -382,7 +384,8 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="60"/>
         <source>An error occurred when attempting to get information on volume.
 Error %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>获取卷信息失败
+错误 %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="97"/>
