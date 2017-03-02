@@ -1,3 +1,29 @@
+Release 1.0.0
+=============
+Add Verify Image function
+Added SHA1 and SHA256 checksums
+Read Only Allocated Partitions
+Save last opened folder
+Additional language translations and translation files location change
+Detect and disable USB Floppy (for now)
+Updated Innosetup for Windows 10 compatibility
+Updated QT/MinGW for Windows 10 compatibility/bug fixes
+
+Bug fixes:
+LP: 1285238 - Need to check filename text box for valid filename (not just a directory).
+LP: 1323876 - Installer doesn't create the correct permissions on install
+LP: 1330125 - Multi-partition SD card only partly copied
+SF:  7 - Windows 8 x64 USB floppy access denied. Possibly imaging C drive
+SF:  8 - Browse Dialog doesnt open then crashes application
+SF:  9 - Cannot Read SD Card
+SF: 13 - 0.9.5 version refuses to open read-only image
+SF: 15 - Open a image for write, bring window in the background
+SF: 27 - Error1: Incorrect function
+SF: 35 - Mismatch between allocating and deleting memory buffer
+SF: 39 - Miswrote to SSD
+SF: 40 - Disk Imager scans whole %USERPROFILE% on start
+SF: 45 - Translation files adustment
+
 Release 0.9.5
 =============
 Update copyright headers, bump for point release
