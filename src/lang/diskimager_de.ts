@@ -26,42 +26,42 @@
     <message>
         <location filename="../mainwindow.ui" line="128"/>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Hash-Funktion</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="148"/>
         <source>Select hash type for verification</source>
-        <translation type="unfinished"></translation>
+        <translation>Hash-Funktion für Überprüfung auswählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="152"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="166"/>
         <source>Generate selected hash on file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählten Hash-Wert für Datei erzeugen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="172"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Erzeugen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="185"/>
         <source>Copy hash to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Hash-Wert in Zwischenablage kopieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="191"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="246"/>
         <source>Read Only Allocated Partitions</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur zugewiesene Partitionen lesen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="268"/>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../mainwindow.ui" line="351"/>
         <source>Write data from &apos;Image File&apos; to &apos;Device&apos;</source>
-        <translation>Schreibe Image Datei auf den Datenträger</translation>
+        <translation>Image Datei auf Datenträger schreiben</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="354"/>
@@ -106,12 +106,12 @@
     <message>
         <location filename="../mainwindow.ui" line="361"/>
         <source>Verify the image file with the selected drive</source>
-        <translation type="unfinished"></translation>
+        <translation>Image-Datei mit ausgewähltem Datenträger vergleichen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="364"/>
         <source>Verify Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur prüfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="377"/>
@@ -150,7 +150,7 @@ Are you sure you want to exit?</source>
     <message>
         <location filename="../mainwindow.cpp" line="262"/>
         <source>Generating...</source>
-        <translation>Erstellen...</translation>
+        <translation>Berechne...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="296"/>
@@ -188,34 +188,34 @@ Are you sure you want to cancel?</source>
         <source>Writing to a physical device can corrupt the device.
 (Target Device: %1 &quot;%2&quot;)
 Are you sure you want to continue?</source>
-        <translation>Auf ein physikalisches Gerät schreiben, kann dieses beschädigen. (Zielgerät: %1 „%2“) Sind Sie sicher, dass sie fortfahren möchten?</translation>
+        <translation>Auf ein physikalisches Gerät schreiben kann dieses beschädigen. (Zielgerät: %1 „%2“) Sind Sie sicher, dass sie fortfahren möchten?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="53"/>
         <source>Waiting for a task.</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte auf etwas zu tun.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="195"/>
         <source>Exiting now will cancel verifying image.
 Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung im Gange. Sind Sie sicher, dass Sie jetzt beenden wollen?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="217"/>
         <source>Disk Images (*.img *.IMG);;*.*</source>
-        <translation type="unfinished"></translation>
+        <translation>Image-Dateien (*.img *.IMG);;*.*</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="305"/>
         <source>Cancel Verify.
 Are you sure you want to cancel?</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung abbrechen. Sind Sie sicher, dass Sie abbrechen wollen?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="475"/>
         <source>Not enough available space!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht genug verfügbarer Speicherplatz!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="561"/>
@@ -286,12 +286,12 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="709"/>
         <source>Disk is not large enough for the specified image.</source>
-        <translation>Der Datenträger ist nicht groß genug für die angegebene Image-Date.</translation>
+        <translation>Der Datenträger ist nicht groß genug für die angegebene Image-Datei.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="792"/>
         <source>Read Canceled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lesevorgang abgebrochen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="794"/>
@@ -311,29 +311,29 @@ Are you sure you want to cancel?</source>
     <message>
         <location filename="../mainwindow.cpp" line="823"/>
         <source>Verify Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Überprüfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"/>
         <source>Size Mismatch!</source>
-        <translation type="unfinished"></translation>
+        <translation>Größe stimmt nicht überein!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verify Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"/>
         <location filename="../mainwindow.cpp" line="1018"/>
         <source>Verification failed at sector: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung fehlgeschlagen bei Sektor: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
         <source>Verify Successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung erfolgreich.</translation>
     </message>
 </context>
 <context>
@@ -369,19 +369,19 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="96"/>
         <location filename="../disk.cpp" line="445"/>
         <source>Volume Error</source>
-        <translation>Volumenfehler</translation>
+        <translation>Datenträger</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="60"/>
         <source>An error occurred when attempting to get information on volume.
 Error %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Versuch, Informationen über den Datenträger zu erhalten. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="97"/>
         <source>An error occurred when attempting to get a handle on the volume.
 Error %1: %2</source>
-        <translation>Fehler beim Versuch, ein Handle auf das Volumen zu erhalten. Fehler %1: %2</translation>
+        <translation>Fehler beim Versuch, ein Handle auf den Datenträger zu erhalten. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="114"/>
@@ -392,7 +392,7 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="115"/>
         <source>An error occurred when attempting to lock the volume.
 Error %1: %2</source>
-        <translation>Fehler beim Versuch, das Volumen zu sperren. Fehler %1: %2</translation>
+        <translation>Fehler beim Versuch, den Datenträger zu sperren. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="132"/>
@@ -403,7 +403,7 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="133"/>
         <source>An error occurred when attempting to unlock the volume.
 Error %1: %2</source>
-        <translation>Fehler beim Versuch, das Volumen zu entsperren. Fehler %1: %2</translation>
+        <translation>Fehler beim Versuch, den Datenträger zu entsperren. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="150"/>
@@ -414,7 +414,7 @@ Error %1: %2</source>
         <location filename="../disk.cpp" line="151"/>
         <source>An error occurred when attempting to dismount the volume.
 Error %1: %2</source>
-        <translation>Fehler beim Versuch, das Volumen auszuhängen. Fehler %1: %2</translation>
+        <translation>Fehler beim Versuch, den Datenträger auszuhängen. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="178"/>
@@ -453,14 +453,14 @@ Error %1: %2</source>
     <message>
         <location filename="../disk.cpp" line="273"/>
         <source>Free Space Error</source>
-        <translation>Fehler des freier Speicherplatz</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="274"/>
         <source>Failed to get the free space on drive %1.
 Error %2: %3
 Checking of free space will be skipped.</source>
-        <translation>Fehler beim Abrufen den freien Speicherplatz auf Laufwerk %1. Fehler %2: %3 Überprüfung des freien Speicherplatzes wird übersprungen.</translation>
+        <translation>Fehler beim Ermitteln des freien Speicherplatzes auf Laufwerk %1. Fehler %2: %3 Überprüfung des freien Speicherplatzes wird übersprungen.</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="340"/>
@@ -468,7 +468,7 @@ Checking of free space will be skipped.</source>
 This usually means something is currently accessing the device;please close all applications and try again.
 
 Error %1: %2</source>
-        <translation>Fehler beim Abrufen der Gerätenummer. Dies bedeutet in der Regel, dass derzeit etwas Zugriff auf das Gerät hat, bitte schließen Sie alle Anwendungen und versuchen Sie es erneut. Fehler %1: %2</translation>
+        <translation>Fehler beim Abrufen der Gerätenummer. Dies bedeutet in der Regel, dass ein anderer Prozess derzeit auf das Gerät zugreift. Bitte schließen Sie alle Anwendungen und versuchen Sie es erneut. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="355"/>
@@ -476,13 +476,13 @@ Error %1: %2</source>
 This usually means something is currently accessing the device; please close all applications and try again.
 
 Error %1: %2</source>
-        <translation>Fehler beim Abfragen der Eigenschaften. Dies bedeutet in der Regel, dass derzeit etwas Zugriff auf das Gerät hat, bitte schließen Sie alle Anwendungen und versuchen Sie es erneut. Fehler %1: %2</translation>
+        <translation>Fehler beim Abfragen der Eigenschaften. Dies bedeutet in der Regel, dass ein anderer Prozess derzeit auf das Gerät zugreift. Bitte schließen Sie alle Anwendungen und versuchen Sie es erneut. Fehler %1: %2</translation>
     </message>
     <message>
         <location filename="../disk.cpp" line="446"/>
         <source>An error occurred when attempting to get a handle on %3.
 Error %1: %2</source>
-        <translation>Fehler beim Versuch, ein Handle auf %3. Fehler %1: %2</translation>
+        <translation>Fehler beim Versuch, ein Handle auf %3 zu erhalten. Fehler %1: %2</translation>
     </message>
 </context>
 </TS>
