@@ -537,7 +537,7 @@ void MainWindow::on_bWrite_clicked()
                 if (update_timer.elapsed() >= ONE_SEC_IN_MS)
                 {
                     mbpersec = (((double)sectorsize * (i - lasti)) * ((float)ONE_SEC_IN_MS / update_timer.elapsed())) / 1024.0 / 1024.0;
-                    statusbar->showMessage(QString("%1MB/s").arg(mbpersec));
+                    statusbar->showMessage(QString("%1 MB/s").arg(mbpersec));
                     elapsed_timer->update(i, numsectors);
                     update_timer.start();
                     lasti = i;
