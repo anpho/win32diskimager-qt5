@@ -170,6 +170,7 @@ void MainWindow::setReadWriteButtonState()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    saveSettings();
     if (status == STATUS_READING)
     {
         if (QMessageBox::warning(this, tr("Exit?"), tr("Exiting now will result in a corrupt image file.\n"
