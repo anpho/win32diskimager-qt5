@@ -45,10 +45,12 @@ void ElapsedTimer::update(unsigned long long progress, unsigned long long total)
     unsigned short tSec = 0, tMin = 0, tHour = 0;
 
     unsigned int baseSecs = timer->elapsed() / MS_PER_SEC;
+    unsigned elapsedMin = 0;
     eSec = baseSecs % SECS_PER_MIN;
     if (baseSecs >= SECS_PER_MIN)
     {
-        eMin = baseSecs / SECS_PER_MIN;
+        elapsedMin = (baseSecs / SECS_PER_MIN);
+	eMin = elapsedMin % MINS_PER_HOUR;
         if (baseSecs >= SECS_PER_HOUR)
         {
             eHour = baseSecs / SECS_PER_HOUR;
