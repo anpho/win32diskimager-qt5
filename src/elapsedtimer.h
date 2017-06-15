@@ -28,10 +28,6 @@
 #include <QLabel>
 #include <QTime>
 #include <QString>
-//#include <cstdio>
-//#include <cstdlib>
-//#include <windows.h>
-//#include <winioctl.h>
 
 class ElapsedTimer : public QLabel
 {
@@ -46,8 +42,15 @@ public:
     void stop();
 
 private:
-//    QLabel *lDisplay;
+    struct timeStruct_t
+    {
+        unsigned short hour = 0;
+        unsigned short min  = 0;
+        unsigned short sec  = 0;
+    };
+
     QTime *timer;
+    void secsToHMS(unsigned int secs, timeStruct_t *ts);
     static const unsigned short MS_PER_SEC = 1000;
     static const unsigned short SECS_PER_MIN = 60;
     static const unsigned short MINS_PER_HOUR = 60;

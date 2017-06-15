@@ -39,51 +39,53 @@ int ElapsedTimer::ms()
     return(timer->elapsed());
 }
 
+// this uses a parameter to store the results rather than a return value in
+//	order to avoid mallocing the struct every time this function is called
+//  (which, potentially, is frequently).
+void ElapsedTimer::secsToHMS(unsigned int secs, timeStruct_t *hms)
+{
+	unsigned int mins = 0;
+
+	hms->sec = secs % SECS_PER_MIN;
+	if ( secs >= SECS_PER_MIN )
+	{
+		mins = (secs / SECS_PER_MIN);
+		hms->min = mins % MINS_PER_HOUR;
+		if ( secs >= SECS_PER_HOUR )
+		{
+			hms->hour = secs / SECS_PER_HOUR;
+		}
+	}
+}
+
 void ElapsedTimer::update(unsigned long long progress, unsigned long long total)
 {
-    unsigned short eSec = 0, eMin = 0, eHour = 0;
-    unsigned short tSec = 0, tMin = 0, tHour = 0;
+    timeStruct_t tTime, eTime;
 
     unsigned int baseSecs = timer->elapsed() / MS_PER_SEC;
-    unsigned int elapsedMin = 0;
-    eSec = baseSecs % SECS_PER_MIN;
-    if (baseSecs >= SECS_PER_MIN)
-    {
-        elapsedMin = (baseSecs / SECS_PER_MIN);
-	eMin = elapsedMin % MINS_PER_HOUR;
-        if (baseSecs >= SECS_PER_HOUR)
-        {
-            eHour = baseSecs / SECS_PER_HOUR;
-        }
-    }
-
     unsigned int totalSecs = (unsigned int)((float)baseSecs * ( (float)total/(float)progress ));
-    unsigned int totalMin = 0;
-    tSec = totalSecs % SECS_PER_MIN;
-    if (totalSecs >= SECS_PER_MIN)
-    {
-        totalMin = totalSecs / SECS_PER_MIN;
-        tMin = totalMin % MINS_PER_HOUR;
-        if (totalMin > MINS_PER_HOUR)
-        {
-            tHour = totalMin / MINS_PER_HOUR;
-        }
-    }
 
+    // convert seconds to hours:minues:seconds
+    secsToHMS(baseSecs, &eTime);
+	secsToHMS(totalSecs, &tTime);
+
+    // build the display string
     const QChar & fillChar = QLatin1Char( '0' );
-    QString qs = QString("%1:%2/").arg(eMin, 2, 10, fillChar).arg(eSec, 2, 10, fillChar);
-    if (eHour > 0)
+    QString qs = QString("%1:%2/").arg(eTime.min, 2, 10, fillChar).arg(eTime.sec, 2, 10, fillChar);
+    if (eTime.hour > 0)
     {
-        qs.prepend(QString("%1:").arg(eHour, 2, 10, fillChar));
+        qs.prepend(QString("%1:").arg(eTime.hour, 2, 10, fillChar));
     }
-    if (tHour > 0)
+    if (tTime.hour > 0)
     {
-        qs += (QString("%1:").arg(tHour, 2, 10, fillChar));
+        qs += (QString("%1:").arg(tTime.hour, 2, 10, fillChar));
     }
-    qs += (QString("%1:%2 ").arg(tMin, 2, 10, fillChar).arg(tSec, 2, 10, fillChar));
+    qs += (QString("%1:%2 ").arg(tTime.min, 2, 10, fillChar).arg(tTime.sec, 2, 10, fillChar));
         // added a space following the times to separate the text slightly from the right edge of the status bar...
         // there's probably a more "QT-correct" way to do that (like, margins or something),
         // but this was simple and effective.
+
+    // display
     setText(qs);
 }
 
@@ -96,5 +98,5 @@ void ElapsedTimer::start()
 void ElapsedTimer::stop()
 {
     setVisible(false);
-    setText(QString("0:00/0:00"));
+    setText(QString("0:00/0:00 "));
 }
