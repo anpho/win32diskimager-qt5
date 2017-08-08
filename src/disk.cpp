@@ -345,8 +345,13 @@ BOOL GetDisksProperty(HANDLE hDevice, PSTORAGE_DEVICE_DESCRIPTOR pDevDesc,
     }
     else
     {
-        if (DeviceIoControl(hDevice, IOCTL_STORAGE_CHECK_VERIFY2, NULL, 0, NULL, 0, &cbBytesReturned,
-                            (LPOVERLAPPED) NULL))
+        bResult = DeviceIoControl(hDevice, IOCTL_STORAGE_CHECK_VERIFY2, NULL, 0, NULL, 0, &cbBytesReturned,
+                            (LPOVERLAPPED) NULL);
+        if (bResult && GetLastError() == ERROR_INVALID_FUNCTION)
+        {
+            retVal = false;
+        }
+        else
         {
             wchar_t *errormessage=NULL;
             FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError(), 0, (LPWSTR)&errormessage, 0, NULL);
