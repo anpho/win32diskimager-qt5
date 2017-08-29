@@ -1,5 +1,27 @@
 Image Writer for Microsoft Windows
+Release 1.0.1
+
+Built with Qt 5.9/MinGW 5.3
+https://github.com/anpho/win32diskimager-qt5
+
+========
+Changes:
+========
++ Fix language files release issue under Qt 5.9
++ Fix qrc path to display i18n UI
+
+Merrick Zhang ( anphorea@gmail.com )
+
+
+
+======================
+Original README below:
+======================
+
+
+Image Writer for Microsoft Windows
 Release 1.0.0 - The "Holy cow, we made a 1.0 Release" release.
+
 ======
 About:
 ======

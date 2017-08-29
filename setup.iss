@@ -21,7 +21,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf32}\ImageWriter
+DefaultDirName={userpf}\ImageWriter
 DefaultGroupName=Image Writer
 LicenseFile=License.txt
 OutputBaseFilename={#MyAppName}-setup-{#MyAppVersion}
@@ -44,7 +44,7 @@ Source: "GPL-2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "LGPL-2.1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Release\platforms\*.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
-Source: "Release\translations\*.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+; Source: "Release\translations\*.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
 Source: "README.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
