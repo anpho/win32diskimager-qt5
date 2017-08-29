@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     app.setAttribute(Qt::AA_UseDesktopOpenGL);
 
     QTranslator translator;
-    translator.load("translations/diskimager_" + QLocale::system().name());
+    translator.load(":/lang/diskimager_" + QLocale::system().name());
     app.installTranslator(&translator);
 
     MainWindow* mainwindow = MainWindow::getInstance();

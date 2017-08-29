@@ -51,31 +51,13 @@ RESOURCES += gui_icons.qrc translations.qrc
 
 RC_FILE = DiskImager.rc
 
-LANGUAGES  = es\
-             it\
-             pl\
-             nl\
-             de\
-             fr\
-             zh_CN\
-             zh_TW\
-             ta_IN
-
-defineReplace(prependAll) {
- for(a,$$1):result += $$2$${a}$$3
- return($$result)
-}
-
-TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/lang/diskimager_, .ts)
-
-TRANSLATIONS_FILES =
-
-qtPrepareTool(LRELEASE, lrelease)
-for(tsfile, TRANSLATIONS) {
-    qmfile = $$tsfile
-    qmfile ~= s,.ts$,.qm,
-    command = $$LRELEASE $$tsfile -qm $$qmfile
-    system($$command)|error("Failed to run: $$command")
-    TRANSLATIONS_FILES += $$qmfile
-}
-
+LANGUAGES  +=    lang/diskimager_de.ts
+LANGUAGES  +=    lang/diskimager_en.ts
+LANGUAGES  +=    lang/diskimager_es.ts
+LANGUAGES  +=    lang/diskimager_fr.ts
+LANGUAGES  +=    lang/diskimager_it.ts
+LANGUAGES  +=    lang/diskimager_nl.ts
+LANGUAGES  +=    lang/diskimager_pl.ts
+LANGUAGES  +=    lang/diskimager_ta_IN.ts
+LANGUAGES  +=    lang/diskimager_zh_CN.ts
+LANGUAGES  +=    lang/diskimager_zh_TW.ts
